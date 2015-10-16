@@ -1,0 +1,24 @@
+
+<ion-view  view-title="Timetable">
+
+    <div class="bar bar-subheader nobar-header">
+<button class="button button-block button-light icon-right ion-arrow-down-b " ng-click="popover.show($event)">
+ <h5> {{date}} </h5> 
+</button>
+</div>
+  <ion-content class="has-subheader">
+
+
+   <div class="card">
+  <div ng-repeat="course in courses | filter: timeFilter | orderBy:'time' " class="item item-text-wrap " >
+{{course.id}} 
+
+      <span class="pull-right">{{course.time}}</span>
+  </div> 
+</div>
+
+      
+              
+  </ion-content>
+
+</ion-view>

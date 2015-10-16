@@ -1,0 +1,18 @@
+<ion-view view-title="Wish"  >
+    
+    <ion-content>
+    
+   <div class="card padding" ng-repeat="course in catalog | filter:filterwish  ">
+       <div class="item item-divider item-icon-right">
+{{course.id}} <i id="like" class="icon ion-ios7-star" ng-click="wishdelete(course)"></i>
+  </div>
+  <div class="item item-text-wrap">
+      <h5>{{course.name}}</h5>
+    {{course.info}}
+      <h5>Credits: {{course.credits}}</h5>
+  </div>
+ 
+
+  </div> 
+    </ion-content>
+</ion-view>

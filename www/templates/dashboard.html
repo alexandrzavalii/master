@@ -1,0 +1,24 @@
+<ion-view view-title="{{userName}}">
+  <ion-content>
+
+      
+      
+      <div class="card">
+        <div class="item item-divider">
+            A bar chart
+        </div>
+        <div class="item item-text-wrap">
+
+            <canvas id="totalCredits" class="chart chart-bar " data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}"></canvas>
+                                    Total credits: {{credits}}/120 
+
+            <div ng-repeat="major in majors"> 
+                
+            <canvas id="{{major}}" class="chart chart-bar " data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}" > </canvas>
+                {{major}} credits:
+                          </div>         
+        </div>
+      </div>
+
+  </ion-content>
+</ion-view>

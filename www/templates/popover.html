@@ -1,0 +1,10 @@
+      <ion-popover-view>
+        <ion-content>
+          <div class="list" ng-click="popover.hide()" >
+            <a class="item"  target="_blank" ng-repeat="day in week" ng-click="weekday('{{day}}')">
+              {{day}}
+            </a>
+    
+          </div>
+        </ion-content>
+      </ion-popover-view>
