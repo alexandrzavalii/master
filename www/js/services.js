@@ -8,8 +8,6 @@ angular.module('mychat.services', ['firebase'])
 .factory('Chats', function ($firebase, Rooms) {
 
     var selectedRoomId;
-
-
     var ref = new Firebase(firebaseUrl);
     var chats;
 
