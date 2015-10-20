@@ -7026,3 +7026,6 @@ a.button {
 
 .list .item.item-accordion.ng-hide-add, .list .item.item-accordion.ng-hide-remove {
   display: block !important; }
+
+.item-complex .item-content, .bckg {
+  background-color: #9bbee0 !important; }

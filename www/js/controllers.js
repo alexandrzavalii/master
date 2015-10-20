@@ -112,7 +112,7 @@ $scope.timeFilter = function(item){
       
       $timeout(function(){
     var userName = $scope.displayName;
-    $scope.userName ="Welcome, " + userName.displayName;
+    $scope.userName =userName.displayName;
     $scope.coursesTaken=userName.coursesTaken;
         var coursesTaken=userName.coursesTaken;
         var catalog=Catalog.all();
