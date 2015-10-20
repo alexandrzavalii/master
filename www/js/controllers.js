@@ -113,14 +113,24 @@ $scope.timeFilter = function(item){
       $timeout(function(){
     var userName = $scope.displayName;
     $scope.userName ="Welcome, " + userName.displayName;
-
+    $scope.coursesTaken=userName.coursesTaken;
         var coursesTaken=userName.coursesTaken;
         var catalog=Catalog.all();
         var major=Major.all();
           var count=0;
           
-      var stats = {major:"Fiat", credits:500, total:100};   
+     $scope.toggleGroup = function(group) {
+    if ($scope.isGroupShown(group)) {
+      $scope.shownGroup = null;
+    } else {
+      $scope.shownGroup = group;
+    }
+  };
+  $scope.isGroupShown = function(group) {
+    return $scope.shownGroup === group;
+  };
           
+
 $scope.majors=userName.major; //all majors of the user
 $scope.credits=Dash.credits(coursesTaken,catalog); //count for the credits of the courses taken
      

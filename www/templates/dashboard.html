@@ -3,21 +3,38 @@
 
       
       
-      <div class="card">
-        <div class="item item-divider">
-Credits        </div>
-        <div class="item item-text-wrap">
- Total: {{credits}}/120 
-            <canvas id="totalCredits" width="100" height="100" class="chart chart-bar " data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}"></canvas>
-                                   
 
-            <div ng-repeat="major in majors"> 
-                {{major}} credits:
-            <canvas id="{{major}}" width="100" height="100"  class="chart chart-bar " data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}" > </canvas>
-                
-                          </div>         
-        </div>
+<div class="row">
+      <div class="col">
+          Total:
+            <canvas id="totalCredits" width="40" height="40" class="chart chart-bar " data="data" labels="labels" legend="false" series="series" options="{showTooltips: false}"></canvas>
+    </div>
+      <div class="col" ng-repeat="major in majors">
+                    {{major}} :
+                      <canvas id="{{major}}" width="40" height="40"  class="chart chart-bar " data="data" labels="labels" legend="false" series="series" options="{showTooltips: false}" > </canvas>
+    </div>
       </div>
+
+   <ion-list>
+          <ion-item class="item-stable"
+                    ng-click="toggleGroup(group)"
+                    ng-class="{active: isGroupShown(group)}">
+              <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
+            &nbsp;
+            Course Taken
+          </ion-item>
+          <ion-item class="item-accordion"
+                    ng-repeat="course in coursesTaken"
+                    ng-show="isGroupShown(group)">
+            {{course.id}}
+          </ion-item>
+
+      </ion-list>
+
+
+
+
+
 
   </ion-content>
 </ion-view>

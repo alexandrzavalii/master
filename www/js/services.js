@@ -86,15 +86,13 @@ angular.module('mychat.services', ['firebase'])
         return [
       {
         value: credits,
-        color:"#F7464A",
-        highlight: "#FF5A5E",
-        label: "Achieved"
+        color:"#1f2d79",
+        highlight: "#FF5A5E"
       },
       {
         value: 120,
-        color: "#FDB45C",
-        highlight: "#FFC870",
-        label: "Total"
+        color: "#acb263",
+        highlight: "#FFC870"
       }
     ]
                     },
@@ -104,14 +102,13 @@ angular.module('mychat.services', ['firebase'])
       {
         value: done,
         color:"#F7464A",
-        highlight: "#FF5A5E",
-        label: "Achieved"
+        highlight: "#FF5A5E"
       },
       {
         value: total,
         color: "#FDB45C",
-        highlight: "#FFC870",
-        label: "Total"
+        highlight: "#FFC870"
+
       }
     ]},
      
