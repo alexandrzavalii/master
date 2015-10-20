@@ -9,6 +9,7 @@ angular.module('mychat.services', ['firebase'])
 
     var selectedRoomId;
 
+
     var ref = new Firebase(firebaseUrl);
     var chats;
 
