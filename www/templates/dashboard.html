@@ -5,17 +5,16 @@
       
       <div class="card">
         <div class="item item-divider">
-            A bar chart
-        </div>
+Credits        </div>
         <div class="item item-text-wrap">
-
-            <canvas id="totalCredits" class="chart chart-bar " data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}"></canvas>
-                                    Total credits: {{credits}}/120 
+ Total: {{credits}}/120 
+            <canvas id="totalCredits" width="100" height="100" class="chart chart-bar " data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}"></canvas>
+                                   
 
             <div ng-repeat="major in majors"> 
-                
-            <canvas id="{{major}}" class="chart chart-bar " data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}" > </canvas>
                 {{major}} credits:
+            <canvas id="{{major}}" width="100" height="100"  class="chart chart-bar " data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}" > </canvas>
+                
                           </div>         
         </div>
       </div>

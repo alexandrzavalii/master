@@ -99,15 +99,44 @@ angular.module('mychat.services', ['firebase'])
       }
     ]
                     },
-     credits:function(crs,ctlg){
+     dataMajor:function(total,done){
+         
+    return [
+      {
+        value: done,
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "Achieved"
+      },
+      {
+        value: total,
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: "Total"
+      }
+    ]},
+     
+     credits:function(courses,catalog){
          var credits=0;
-              for(i=0;i<crs.length;i++) 
-                 for(j=0;j<ctlg.length;j++)
-                     if(crs[i].id==ctlg[j].id){
-                         credits+= parseInt(ctlg[j].credits) 
+              for(i=0;i<courses.length;i++) 
+                 for(j=0;j<catalog.length;j++)
+                     if(courses[i].id==catalog[j].id){
+                         credits+= parseInt(catalog[j].credits) 
                          break;
                      }
          return credits;
+     },
+     majorCount: function(required,elective,taken){
+         var count=0;
+         var all= required.concat(elective)
+        for(p=0;p<taken.length;p++)
+                     for(j=0;j<all.length;j++) 
+                            if(taken[p].id == all[j]) {
+                                console.log(taken[p].id);
+                        count++;
+                        
+                                                      }
+         return count;
      }
 }})
 

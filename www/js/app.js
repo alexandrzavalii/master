@@ -109,11 +109,11 @@ angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mychat.controll
       }
     }
   })
-     .state('app.info', {
-    url: '/info',
+     .state('app.profile', {
+    url: '/profile',
     views: {
       'menuContent': {
-        templateUrl: 'templates/info.html'
+        templateUrl: 'templates/profile.html'
       
       }
     }

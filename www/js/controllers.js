@@ -119,10 +119,12 @@ $scope.timeFilter = function(item){
         var major=Major.all();
           var count=0;
           
+      var stats = {major:"Fiat", credits:500, total:100};   
+          
 $scope.majors=userName.major; //all majors of the user
 $scope.credits=Dash.credits(coursesTaken,catalog); //count for the credits of the courses taken
-       var data = Dash.data($scope.credits);
-          
+     
+var data = Dash.data($scope.credits); 
 var totalCredits = document.getElementById("totalCredits").getContext("2d");
 var totalPie = new Chart(totalCredits).Pie(data);
           
@@ -130,46 +132,20 @@ var totalPie = new Chart(totalCredits).Pie(data);
           for(i=0;i<major.length;i++){
               for(j=0;j<userName.major.length;j++)
             if(userName.major[j]==major[i].id) {
-               
-                console.log("Required "+major[i].required);
-                console.log("TAKEN");
-                for(d=0;d<major[i].required.length;d++)
-                for(t=0;t<coursesTaken.length;t++)
-                    if(major[i].required[d] == coursesTaken[t].id) {
-                        count++;
-     console.log("Major "+major[i].id+" course " + coursesTaken[t].id);
-                                                          }
-         console.log(count);
+                
+
+var majorDone=Dash.majorCount(major[i].required,major[i].elective.courses,coursesTaken);
+var totalRequired=major[i].required.length+ parseInt(major[i].elective.number);
+console.log("TOTAL: "+ totalRequired + " DONE: " + majorDone+ " MAJOR: " +major[i].id);
+var datas= Dash.dataMajor(totalRequired,majorDone);
+             
+var majorCredits = document.getElementById(userName.major[i]).getContext("2d");
+var majorPie = new Chart(majorCredits).Pie(datas);  
+
                 count=0;  
             }
-           /*   console.log("COURSES TAKEN: "+ count);
-              console.log("Total number: "+ major.length);
- var data= [
-      {
-        value: count,
-        color:"#F7464A",
-        highlight: "#FF5A5E",
-        label: "Achieved"
-      },
-      {
-        value: major.length,
-        color: "#FDB45C",
-        highlight: "#FFC870",
-        label: "Total"
-      }
-    ]
-var majorCredits = document.getElementById(userName.major[i]).getContext("2d");
-var majorPie = new Chart(majorCredits).Pie(data);   */
           }
 
-
-          
-
-
-
-
-
-      
      }, 500); 
 
     $scope.ChatRoom = function(user){
@@ -221,9 +197,10 @@ var majorPie = new Chart(majorCredits).Pie(data);   */
 var courses=$scope.displayName.courses;
 
       $timeout(function(){
-                          $scope.rooms = Rooms.all(courses);
+    $scope.rooms = Rooms.all(courses);
 
       },500 );
+    
     $scope.openChatRoom = function (roomId) {
         $state.go('tab.chat', {
             roomId: roomId
