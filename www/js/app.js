@@ -11,7 +11,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 // 'mychat.services' is found in services.js
 // 'mychat.controllers' is found in controllers.js
-angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mychat.controllers', 'mychat.services','angles'])
+var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mychat.controllers', 'mychat.services','angles'])
 
 .run(function ($ionicPlatform, $rootScope, $location, Auth, $ionicLoading) {
     $ionicPlatform.ready(function () {
@@ -80,6 +80,8 @@ angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mychat.controll
                     // $waitForAuth returns a promise so the resolve waits for it to complete
                     return Auth.$waitForAuth();
         }]
+
+
         }
     })
     
@@ -89,6 +91,7 @@ angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mychat.controll
     templateUrl: 'templates/menu.html',
         controller: 'DashCtrl',
             resolve: {
+
             // controller will not be loaded until $requireAuth resolves
             // Auth refers to our $firebaseAuth wrapper in the example above
             "currentAuth": ["Auth",
@@ -96,8 +99,25 @@ angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mychat.controll
                     // $requireAuth returns a promise so the resolve waits for it to complete
                     // If the promise is rejected, it will throw a $stateChangeError (see above)
                     return Auth.$requireAuth();
-      }]
-        }
+      }],
+"dataLoad": function( $q, $timeout,$rootScope, Catalog ) {
+
+        var asynchData = $q.defer();
+        $timeout(function(){
+          asynchData.resolve({
+            userData: function() {
+
+              return $rootScope.displayName;
+            },
+            catalog: function( ) {
+              return Catalog.all();
+            }
+          });
+        },1000);
+        return asynchData.promise;
+      }
+            }
+
   })
 
   .state('app.dashboard', {

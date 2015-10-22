@@ -1,5 +1,6 @@
 {
     "jscodehints.detectedExclusions": [
-        "/Users/alexandrzavalii/Desktop/ionic/master/www/js/controllers.js"
+        "/Users/alexandrzavalii/Desktop/ionic/master/www/js/controllers.js",
+        "/Users/alexandrzavalii/Desktop/ionic/master/www/js/services.js"
     ]
 }

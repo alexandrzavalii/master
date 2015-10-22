@@ -108,18 +108,20 @@ $scope.timeFilter = function(item){
 
 
 })
-.controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Catalog,Major,Dash ) {
-      
-      $timeout(function(){
-    var userName = $scope.displayName;
+.controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Catalog,Major,Dash, dataLoad) {
+
+      console.log(dataLoad.catalog());
+
+ var userName = $scope.displayName;
     $scope.userName =userName.displayName;
     $scope.coursesTaken=userName.coursesTaken;
         var coursesTaken=userName.coursesTaken;
         var catalog=Catalog.all();
         var major=Major.all();
           var count=0;
-          
-     $scope.toggleGroup = function(group) {
+
+    //toggle all course slide down menue
+         $scope.toggleGroup = function(group) {
     if ($scope.isGroupShown(group)) {
       $scope.shownGroup = null;
     } else {
@@ -129,15 +131,14 @@ $scope.timeFilter = function(item){
   $scope.isGroupShown = function(group) {
     return $scope.shownGroup === group;
   };
-          
-
-$scope.majors=userName.major; //all majors of the user
+    //slide menue end
+    $scope.majors=userName.major; //all majors of the user
 $scope.credits=Dash.credits(coursesTaken,catalog); //count for the credits of the courses taken
-     
 var data = Dash.data($scope.credits); 
+
+      $timeout(function(){
 var totalCredits = document.getElementById("totalCredits").getContext("2d");
 var totalPie = new Chart(totalCredits).Pie(data);
-          
           //discover major and count classes 
           for(i=0;i<major.length;i++){
               for(j=0;j<userName.major.length;j++)
