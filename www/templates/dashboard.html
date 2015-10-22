@@ -7,11 +7,14 @@
 <div class="row">
       <div class="col">
           Total:
-            <canvas id="totalCredits" width="40" height="40" class="chart chart-bar " data="data" labels="labels" legend="false" series="series" options="{showTooltips: false}"></canvas>
+
+            <canvas id="totalCredits" width="40" height="40" class="chart chart-bar " data="data" labels="labels" legend="false" series="series" options="{showTooltips: false}" ng-click="logout()"></canvas>
     </div>
       <div class="col" ng-repeat="major in majors">
                     {{major}} :
+
                       <canvas id="{{major}}" width="40" height="40"  class="chart chart-bar " data="data" labels="labels" legend="false" series="series" options="{showTooltips: false}" > </canvas>
+
     </div>
       </div>
 

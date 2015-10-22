@@ -19,7 +19,7 @@
 
 
       <ion-list class="list-borderless ">
-        <ion-item menu-close href="#" class="item-text-wrap item-avatar">
+        <ion-item menu-close href="#/app/profile" class="item-text-wrap item-avatar">
 
       <img src="../img/profile.jpg">
       <h2>{{userName}}</h2>
@@ -41,11 +41,12 @@
       <i class="icon ion-chatbubble"></i> Chat
                           <span class="badge badge-assertive">0</span>
     </ion-item>
-                          <ion-item class="item-icon-left" type="item-text-wrap" nav-clear menu-close href="#/app/profile">
-      <i class="icon ion-person"></i> Profile
-    </ion-item>
+
                                     <ion-item class="item-icon-left" type="item-text-wrap" nav-clear menu-close href="#/app/catalog">
       <i class="icon ion-clipboard"></i> Catalog
+    </ion-item>
+           <ion-item class="item-icon-left" type="item-text-wrap" nav-clear menu-close href="#/app/profile">
+      <i class="icon ion-gear-b"></i> Settings
     </ion-item>
      
                               <ion-item class="item-icon-left" type="item-text-wrap" nav-clear menu-close href="#" ng-click="logout()">

@@ -100,20 +100,22 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
                     // If the promise is rejected, it will throw a $stateChangeError (see above)
                     return Auth.$requireAuth();
       }],
-"dataLoad": function( $q, $timeout,$rootScope, Catalog ) {
+"dataLoad": function( $q, $timeout,$rootScope, Catalog, Major ) {
 
         var asynchData = $q.defer();
         $timeout(function(){
           asynchData.resolve({
             userData: function() {
-
               return $rootScope.displayName;
             },
             catalog: function( ) {
               return Catalog.all();
-            }
+            },
+              major: function() {
+                  return Major.all();
+              }
           });
-        },1000);
+        },500);
         return asynchData.promise;
       }
             }
@@ -182,6 +184,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
                     // If the promise is rejected, it will throw a $stateChangeError (see above)
                     return Auth.$requireAuth();
       }]
+
         }
     })
 
@@ -192,7 +195,24 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
         views: {
             'tab-rooms': {
                 templateUrl: 'templates/chat/tab-rooms.html',
-                controller: 'RoomsCtrl'
+                controller: 'RoomsCtrl',
+                resolve: {
+
+            "roomLoad": function( $q, $timeout,$rootScope, Rooms ) {
+
+              var asynchData = $q.defer();
+              $timeout(function(){
+               asynchData.resolve({
+               roomData: function() {
+                   var courses = $rootScope.displayName.courses;
+              return Rooms.all(courses);
+            }
+          });
+        },500);
+        return asynchData.promise;
+      }
+
+                }
             }
         }
     })

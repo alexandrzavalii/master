@@ -108,16 +108,16 @@ $scope.timeFilter = function(item){
 
 
 })
-.controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Catalog,Major,Dash, dataLoad) {
-
-      console.log(dataLoad.catalog());
+.controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Dash, dataLoad) {
+//dataload is resolve function for loading data before loading state
+      console.log(dataLoad.userData());
 
  var userName = $scope.displayName;
     $scope.userName =userName.displayName;
     $scope.coursesTaken=userName.coursesTaken;
         var coursesTaken=userName.coursesTaken;
-        var catalog=Catalog.all();
-        var major=Major.all();
+        var catalog=dataLoad.catalog();
+        var major=dataLoad.major();
           var count=0;
 
     //toggle all course slide down menue
@@ -138,7 +138,13 @@ var data = Dash.data($scope.credits);
 
       $timeout(function(){
 var totalCredits = document.getElementById("totalCredits").getContext("2d");
-var totalPie = new Chart(totalCredits).Pie(data);
+var totalPie = new Chart(totalCredits).Pie(data,{
+    animateScale: true,
+    showTooltips: false
+});
+
+
+
           //discover major and count classes 
           for(i=0;i<major.length;i++){
               for(j=0;j<userName.major.length;j++)
@@ -151,7 +157,10 @@ console.log("TOTAL: "+ totalRequired + " DONE: " + majorDone+ " MAJOR: " +major[
 var datas= Dash.dataMajor(totalRequired,majorDone);
              
 var majorCredits = document.getElementById(userName.major[i]).getContext("2d");
-var majorPie = new Chart(majorCredits).Pie(datas);  
+var majorPie = new Chart(majorCredits).Pie(datas,{
+    animateScale: true,
+       showTooltips: false
+});
 
                 count=0;  
             }
@@ -204,13 +213,12 @@ var majorPie = new Chart(majorCredits).Pie(datas);
     }
 })
 
-.controller('RoomsCtrl', function ($scope, Rooms, Chats, $state, $timeout) {
-var courses=$scope.displayName.courses;
+.controller('RoomsCtrl', function ($scope, Chats, $state, roomLoad) {
 
-      $timeout(function(){
-    $scope.rooms = Rooms.all(courses);
+    //load rooms using resolve
+    $scope.rooms = roomLoad.roomData();
 
-      },500 );
+
     
     $scope.openChatRoom = function (roomId) {
         $state.go('tab.chat', {
