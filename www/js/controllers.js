@@ -229,6 +229,38 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
         $state.go('app.dashboard');
     }
 })
+.controller('LeftMenuCtrl', function($scope, $location) {
+    $scope.items=[
+        {
+        name: 'dashboard',
+        url: '/app/dashboard',
+        icon: 'icon ion-home'
+    }, {
+        name: 'timetable',
+        url: '/app/timetable' ,
+        icon: 'icon ion-calendar'
+    },{
+        name:'wish list',
+        url: '/app/wish',
+        icon: 'icon ion-ios7-lightbulb'
+    },{
+        name: 'catalog',
+        url: '/app/catalog',
+        icon:'icon ion-clipboard'
+    },{
+        name: 'settings',
+        url: '/app/profile',
+        icon: 'icon ion-gear-b'
+    }
+                 ]
+
+  $scope.isItemActive = function(item) {
+console.log($location.path);
+      console.log(item.url);
+    return $location.path().indexOf(item.url) > -1;
+
+}
+})
 .controller('CatalogCtrl', function ($scope, Catalog, $state, $firebase, $ionicLoading) {
 
           var userName = $scope.displayName;

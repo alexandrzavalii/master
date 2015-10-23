@@ -1,4 +1,4 @@
-<ion-side-menus enable-menu-with-back-views="false">
+<ion-side-menus enable-menu-with-back-views="false" ng-controller="LeftMenuCtrl">
   <ion-side-menu-content>
     <ion-nav-bar class="bar-stable">
       <ion-nav-back-button>
@@ -19,6 +19,10 @@
 
 
       <ion-list class="list-borderless ">
+
+
+
+
         <ion-item menu-close href="#/app/profile" class="item-text-wrap item-avatar">
 
       <img src="../img/profile.jpg">
@@ -26,29 +30,15 @@
         <p>I am ready to rock.</p>
 
         </ion-item>
-          <ion-item class="item-icon-left" type="item-text-wrap" nav-clear menu-close href="#/app/dashboard">
-      <i class="icon ion-home"></i> Dashboard
-    </ion-item>
-          
-    <ion-item class="item-icon-left" type="item-text-wrap" nav-clear menu-close  href="#/app/timetable">
-      <i class="icon ion-calendar"></i> Timetable
-    </ion-item>
-            <ion-item class="item-icon-left" type="item-text-wrap" nav-clear menu-close  href="#/app/wish">
-      <i class="icon ion-ios7-lightbulb"></i> Wish list
-    </ion-item>
-
+          <ion-item menu-close class="item-icon-left " type="item-text-wrap" nav-clear ng-repeat="item in items" href="#{{item.url}}" ng-class="{'item-positive': isItemActive(item)}">
+              <i class="{{item.icon}}"></i>
+   {{item.name}}
+  </ion-item>
     <ion-item class="item-icon-left" type="item-text-wrap" nav-clear menu-close   href="#" ng-click="ChatRoom()">
       <i class="icon ion-chatbubble"></i> Chat
                           <span class="badge badge-assertive">0</span>
     </ion-item>
 
-                                    <ion-item class="item-icon-left" type="item-text-wrap" nav-clear menu-close href="#/app/catalog">
-      <i class="icon ion-clipboard"></i> Catalog
-    </ion-item>
-           <ion-item class="item-icon-left" type="item-text-wrap" nav-clear menu-close href="#/app/profile">
-      <i class="icon ion-gear-b"></i> Settings
-    </ion-item>
-     
                               <ion-item class="item-icon-left" type="item-text-wrap" nav-clear menu-close href="#" ng-click="logout()">
       <i class="icon ion-log-out"></i> Log out
     </ion-item>
