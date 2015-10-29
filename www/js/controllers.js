@@ -69,6 +69,7 @@ angular.module('mychat.controllers', [])
             });
         } else
             alert("Please enter email and password both");
+
     }
 })
 
@@ -108,14 +109,22 @@ $scope.timeFilter = function(item){
 
 
 })
-.controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Dash, dataLoad) {
+.controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Dash, dataLoad, $ionicPopover) {
 //dataload is resolve function for loading data before loading state
-      console.log(dataLoad.userData());
 
- var userName = $scope.displayName;
-    $scope.userName =userName.displayName;
-    $scope.coursesTaken=userName.coursesTaken;
-        var coursesTaken=userName.coursesTaken;
+   $ionicPopover.fromTemplateUrl('templates/popoverStats.html', {
+    scope: $scope,
+  }).then(function(popover) {
+    $scope.popover = popover;
+  });
+
+
+
+ var user = $scope.displayName;
+    $scope.userName =user.displayName;
+    $scope.coursesTaken=user.coursesTaken;
+        var coursesTaken=user.coursesTaken;
+
         var catalog=dataLoad.catalog();
         var major=dataLoad.major();
           var count=0;
@@ -132,11 +141,19 @@ $scope.timeFilter = function(item){
     return $scope.shownGroup === group;
   };
     //slide menue end
-    $scope.majors=userName.major; //all majors of the user
+    $scope.majors=user.major; //all majors of the user
 $scope.credits=Dash.credits(coursesTaken,catalog); //count for the credits of the courses taken
 var data = Dash.data($scope.credits); 
-
+console.log($scope.credits);
       $timeout(function(){
+          //avatar load
+
+
+
+
+
+
+    //avatar endload
 var totalCredits = document.getElementById("totalCredits").getContext("2d");
 var totalPie = new Chart(totalCredits).Pie(data,{
     animateScale: true,
@@ -147,16 +164,17 @@ var totalPie = new Chart(totalCredits).Pie(data,{
 
           //discover major and count classes 
           for(i=0;i<major.length;i++){
-              for(j=0;j<userName.major.length;j++)
-            if(userName.major[j]==major[i].id) {
+              for(j=0;j<user.major.length;j++)
+            if(user.major[j]==major[i].id) {
                 
 
-var majorDone=Dash.majorCount(major[i].required,major[i].elective.courses,coursesTaken);
+var majorDone=Dash.majorSelect(major[i].required,major[i].elective.courses,coursesTaken);
 var totalRequired=major[i].required.length+ parseInt(major[i].elective.number);
+
 console.log("TOTAL: "+ totalRequired + " DONE: " + majorDone+ " MAJOR: " +major[i].id);
-var datas= Dash.dataMajor(totalRequired,majorDone);
+var datas= Dash.dataMajor(totalRequired,majorDone.length);
              
-var majorCredits = document.getElementById(userName.major[i]).getContext("2d");
+var majorCredits = document.getElementById(user.major[i]).getContext("2d");
 var majorPie = new Chart(majorCredits).Pie(datas,{
     animateScale: true,
        showTooltips: false
@@ -166,7 +184,7 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
             }
           }
 
-     }, 500); 
+     }, 1000);
 
     $scope.ChatRoom = function(user){
     $state.go('tab.rooms');
@@ -229,49 +247,17 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
         $state.go('app.dashboard');
     }
 })
-.controller('LeftMenuCtrl', function($scope, $location) {
-    $scope.items=[
-        {
-        name: 'dashboard',
-        url: '/app/dashboard',
-        icon: 'icon ion-home'
-    }, {
-        name: 'timetable',
-        url: '/app/timetable' ,
-        icon: 'icon ion-calendar'
-    },{
-        name:'wish list',
-        url: '/app/wish',
-        icon: 'icon ion-ios7-lightbulb'
-    },{
-        name: 'catalog',
-        url: '/app/catalog',
-        icon:'icon ion-clipboard'
-    },{
-        name: 'settings',
-        url: '/app/profile',
-        icon: 'icon ion-gear-b'
-    }
-                 ]
 
-  $scope.isItemActive = function(item) {
-console.log($location.path);
-      console.log(item.url);
-    return $location.path().indexOf(item.url) > -1;
+.controller('CatalogCtrl', function ($scope, Catalog, $state, $ionicLoading) {
 
-}
-})
-.controller('CatalogCtrl', function ($scope, Catalog, $state, $firebase, $ionicLoading) {
-
-          var userName = $scope.displayName;
-    $scope.catalog = Catalog.all();
+var userName = $scope.displayName;
 var UserUid= window.localStorage['UserUid'];
 var url="https://aubg.firebaseio.com/users/"+UserUid+"/wish";
     $scope.wishid=userName.wish;
     var urlUser = new Firebase(url);
 // Modify the 'first' and 'last' children, but leave other data at fredNameRef unchanged
 
-    
+    $scope.catalog = Catalog.all();
 $scope.clearSearch = function() { $scope.searchQuery = ''; }
     
     
@@ -309,4 +295,103 @@ $scope.filterwish = function(course) {
     };
 
 })
+.controller('ProfileCtrl', function($scope, $ionicHistory, $cordovaCamera,$timeout, dataLoad, $state, $firebaseObject) {
 
+    $ionicHistory.clearHistory();
+
+    // gets the ID of a USER
+    var ref = new Firebase(firebaseUrl);
+    var fbAuth= ref.getAuth();
+      if(fbAuth) {
+        var userReference = ref.child("profile/" + fbAuth.uid);
+          var syncObject= $firebaseObject(userReference.child("avatar"));
+
+         $scope.avatar = syncObject;
+          console.log(syncObject.url);
+
+    } else {
+        $state.go("login");
+    }
+
+
+
+//urlUserImage.child('avatar').set('img');
+    $scope.reload= function() {
+        $state.go($state.current, {}, {reload: true});
+    }
+
+
+    $scope.uploadAvatar = function() {
+        var options = {
+            quality : 75,
+            destinationType : Camera.DestinationType.DATA_URL,
+            sourceType : Camera.PictureSourceType.CAMERA,
+            allowEdit : true,
+            encodingType: Camera.EncodingType.JPEG,
+            popoverOptions: CameraPopoverOptions,
+            targetWidth: 500,
+            targetHeight: 500,
+            saveToPhotoAlbum: false
+        };
+        $cordovaCamera.getPicture(options).then(function(imageData) {
+        syncObject.url=imageData;
+         syncObject.$save().then(function(){
+
+           alert("Image has been uploaded");
+         });
+
+
+                }, function(error) {
+            alert.error(error);
+        });
+    }
+
+
+
+
+})
+.controller('LeftMenuCtrl', function($scope, $location, $firebaseObject) {
+
+
+    var ref = new Firebase(firebaseUrl);
+    var fbAuth= ref.getAuth();
+          if(fbAuth) {
+        var userReference = ref.child("profile/" + fbAuth.uid);
+          var syncObject= $firebaseObject(userReference.child("avatar"));
+
+         $scope.avatar = syncObject;
+          console.log(syncObject.url);
+
+    } else {
+        $state.go("login");
+    }
+
+
+    $scope.items=[
+        {
+        name: 'dashboard',
+        url: '/app/dashboard',
+        icon: 'icon ion-home'
+    }, {
+        name: 'timetable',
+        url: '/app/timetable' ,
+        icon: 'icon ion-calendar'
+    },{
+        name:'wish list',
+        url: '/app/wish',
+        icon: 'icon ion-ios7-lightbulb'
+    },{
+        name: 'catalog',
+        url: '/app/catalog',
+        icon:'icon ion-clipboard'
+    },{
+        name: 'settings',
+        url: '/app/settings',
+        icon: 'icon ion-gear-b'
+    }
+                 ]
+
+  $scope.isItemActive = function(item) {
+    return $location.path().indexOf(item.url) > -1;
+}
+})

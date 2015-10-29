@@ -1,9 +1,16 @@
-<ion-view view-title="{{userName}}">
-  <ion-content>
-        <a class="item item-avatar" href="#">
-      <img src="../img/ionic.png">
+<ion-view title="My Images" ng-init="">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-camera" ng-click="upload()"></button>
+    </ion-nav-buttons>
+    <ion-content>
+
+   <a class="item item-thumbnail-left" ng-click="uploadAvatar()" >
+    <img ng-src="data:image/jpg;base64,{{avatar.url}}" />
       <h2>{{userName}}</h2>
       <p>Back off, man. I'm a scientist.</p>
     </a>
-  </ion-content>
+
+    </ion-content>
 </ion-view>
+
+

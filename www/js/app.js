@@ -11,7 +11,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 // 'mychat.services' is found in services.js
 // 'mychat.controllers' is found in controllers.js
-var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mychat.controllers', 'mychat.services','angles'])
+var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mychat.controllers', 'mychat.services','angles','ngCordova'])
 
 .run(function ($ionicPlatform, $rootScope, $location, Auth, $ionicLoading) {
     $ionicPlatform.ready(function () {
@@ -50,6 +50,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
 
 
         $rootScope.$on("$stateChangeError", function (event, toState, toParams, fromState, fromParams, error) {
+
             // We can catch the error thrown when the $requireAuth promise is rejected
             // and redirect the user back to the home page
             if (error === "AUTH_REQUIRED") {
@@ -77,6 +78,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
             // Auth refers to our $firebaseAuth wrapper in the example above
             "currentAuth": ["Auth",
                 function (Auth) {
+
                     // $waitForAuth returns a promise so the resolve waits for it to complete
                     return Auth.$waitForAuth();
         }]
@@ -96,13 +98,12 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
             // Auth refers to our $firebaseAuth wrapper in the example above
             "currentAuth": ["Auth",
                 function (Auth) {
+
                     // $requireAuth returns a promise so the resolve waits for it to complete
                     // If the promise is rejected, it will throw a $stateChangeError (see above)
                     return Auth.$requireAuth();
       }],
-"dataLoad": function( $q, $timeout,$rootScope, Catalog, Major ) {
-
-        var asynchData = $q.defer();
+"dataLoad": function( $q, $timeout,$rootScope, Catalog, Major ) {   var asynchData = $q.defer();
         $timeout(function(){
           asynchData.resolve({
             userData: function() {
@@ -114,11 +115,16 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
               major: function() {
                   return Major.all();
               }
+
           });
         },500);
+
         return asynchData.promise;
       }
+
             }
+
+
 
   })
 
@@ -135,9 +141,9 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
     url: '/profile',
     views: {
       'menuContent': {
-        templateUrl: 'templates/profile.html'
-      
-      }
+        templateUrl: 'templates/profile.html',
+          controller: 'ProfileCtrl',
+                   }
     }
   })
     .state('app.catalog', {
@@ -170,6 +176,15 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
       }
     }
   })
+        .state('app.settings', {
+    url: '/settings',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/settings.html',
+       controller: 'TimetableCtrl'
+      }
+    }
+  })
         // setup an abstract state for the chat  directive
     .state('tab', {
         url: "/tab",
@@ -198,9 +213,12 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
                 controller: 'RoomsCtrl',
                 resolve: {
 
-            "roomLoad": function( $q, $timeout,$rootScope, Rooms ) {
+            "roomLoad": function( $q, $timeout,$rootScope, Rooms, $ionicLoading ) {
 
               var asynchData = $q.defer();
+                    $ionicLoading.show({
+                template: 'Loading...'
+            });
               $timeout(function(){
                asynchData.resolve({
                roomData: function() {
@@ -208,6 +226,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
               return Rooms.all(courses);
             }
           });
+                      $ionicLoading.hide();
         },500);
         return asynchData.promise;
       }

@@ -4,15 +4,8 @@ angular.module('mychat.services', ['firebase'])
             var ref = new Firebase(firebaseUrl);
             return $firebaseAuth(ref);
 }])
-.factory('Example', function($firebase){
 
-    return {
-
-    }
-
-
-})
-.factory('Chats', function ($firebase, Rooms) {
+.factory('Chats', function ( Rooms, $firebaseArray) {
 
     var selectedRoomId;
     var ref = new Firebase(firebaseUrl);
@@ -50,7 +43,7 @@ angular.module('mychat.services', ['firebase'])
             console.log("selecting the room with id: " + roomId);
             selectedRoomId = roomId;
             if (!isNaN(roomId)) {
-                chats = $firebase(ref.child('rooms').child(selectedRoomId).child('chats')).$asArray();
+                chats = $firebaseArray(ref.child('rooms').child(selectedRoomId).child('chats'));
             }
         },
         send: function (from, message) {
@@ -73,10 +66,10 @@ angular.module('mychat.services', ['firebase'])
  * Simple Service which returns Rooms collection as Array from Salesforce & binds to the Scope in Controller
  */
 
-.factory('Catalog', function ($firebase) {
+.factory('Catalog', function ($firebaseArray) {
     // Might use a resource here that returns a JSON array
     var ref = new Firebase(firebaseUrl);
- var catalog = $firebase(ref.child('catalog')).$asArray();
+ var catalog = $firebaseArray(ref.child('catalog'));
  
     return {
         all: function () {
@@ -85,7 +78,7 @@ angular.module('mychat.services', ['firebase'])
     }
 })
 
-.factory('Dash', function ($firebase) {
+.factory('Dash', function ($firebaseArray) {
  
  return {
     data:function(credits) {
@@ -129,26 +122,28 @@ angular.module('mychat.services', ['firebase'])
                      }
          return credits;
      },
-     majorCount: function(required,elective,taken){
-         var count=0;
+     majorSelect: function(required,elective,taken){
+
+         var list=[];
          var all= required.concat(elective)
         for(p=0;p<taken.length;p++)
                      for(j=0;j<all.length;j++) 
                             if(taken[p].id == all[j]) {
                                 console.log(taken[p].id);
-                        count++;
+                                list.push(taken[p].id);
+
                         
                                                       }
-         return count;
+         return list;
      }
 }})
 
 
 
-.factory('Major', function ($firebase) {
+.factory('Major', function ($firebaseArray) {
     // Might use a resource here that returns a JSON array
     var ref = new Firebase(firebaseUrl);
- var major = $firebase(ref.child('majors')).$asArray();
+ var major = $firebaseArray(ref.child('majors'));
  
     return {
         all: function () {
@@ -156,10 +151,10 @@ angular.module('mychat.services', ['firebase'])
         }
     }
 })
-.factory('Rooms', function ($firebase) {
+.factory('Rooms', function ($firebaseArray) {
     // Might use a resource here that returns a JSON array
     var ref = new Firebase(firebaseUrl);
-    var rooms = $firebase(ref.child('rooms')).$asArray();
+    var rooms = $firebaseArray(ref.child('rooms'));
 
     return {
         all: function (courses) {

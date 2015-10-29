@@ -1,0 +1,648 @@
+{
+  "catalog" : [ {
+    "credits" : "4",
+    "id" : "AMS 201",
+    "info" : "This course provides an introductory look at the field of North American Cultural Studies. The course will examine the values, ideas, myths, and debates that define North American cultural identity. ",
+    "name" : "North American Cultural Studies: An Introduction"
+  }, {
+    "credits" : "3",
+    "id" : "AMS 301",
+    "info" : "This course deals with views of America outside of the United States, particularly in Europe, the former Communist world and the Near East. ",
+    "name" : "America in a Global Perspective"
+  }, {
+    "credits" : "3",
+    "id" : "COS 120",
+    "info" : "The purpose of the course is to introduce the basic concepts of computer science using the C++ programming language. ",
+    "name" : "Software Development Using C++"
+  }, {
+    "credits" : "3",
+    "id" : "COS 150",
+    "info" : "The purpose of the course is to introduce the basic concepts of computer science using the C++ programming language. ",
+    "name" : "Discrete Structures"
+  }, {
+    "credits" : "4",
+    "id" : "ENG 101",
+    "info" : "This course stresses clear and precise communication. Students will critically analyze texts and use them as models for their own writing. ",
+    "name" : "Exposition"
+  }, {
+    "credits" : "3",
+    "id" : "MAT 103",
+    "info" : "The course develops (primarily on technical and intuitive level with only minor references to deeper points like completeness) the initial notions and skills of analysis in the real line.",
+    "name" : "Calculus I"
+  }, {
+    "credits" : "4",
+    "id" : "ENG 102",
+    "info" : "This course stresses argumentation. Students will critically assess sophisticatedsource materials and integrate outside sources into their own persuasive arguments. ",
+    "name" : "Persuasion"
+  }, {
+    "credits" : "4",
+    "id" : "ENG 300",
+    "info" : "A general-purpose scholastic introduction to one of the most important texts of the past. The Bible has exercised an enormous influence on European culture, ways of life, moral codes, languages, and art. ",
+    "name" : "The Bible as Literature"
+  }, {
+    "credits" : "3",
+    "id" : "STA 105",
+    "info" : "This course is designed to give students the ability to interpret results that can bedrawn from data. It serves the student's need in Business, Economics, and other Social Sciences to be able to make sense of results of studies and surveys ",
+    "name" : "Statistics"
+  }, {
+    "credits" : "3",
+    "id" : "ENG 242",
+    "info" : "This course will cover American literature from 1865 to the present. We will read short stories, novels, poems, and essays by writers working across a century-and-ahalf of American history and dealing with the changes through which American culture has gone.",
+    "name" : "American Literature: 1865 - Present"
+  }, {
+    "credits" : "3",
+    "id" : "MLL 136",
+    "info" : "A continuation of MLL 135 for international students as well as a beginners' course for speakers of an East Slavic language (Russian, Belarusian, or Ukrainian).",
+    "name" : "Introductory Bulgarian II"
+  }, {
+    "credits" : "3",
+    "id" : "MLL 115",
+    "info" : "Elementary French language for students with no previous study of French or fewer than one year in secondary school. ",
+    "name" : "Introductory French I"
+  }, {
+    "credits" : "3",
+    "id" : "INF 370",
+    "info" : "An introduction to the various technical and administrative aspects of informationsecurity and assurance.  ",
+    "name" : "Information Security"
+  }, {
+    "credits" : "3",
+    "id" : "INF 275",
+    "info" : "The course introduces the concepts, languages, and technologies relating to dynamic Web-based applications from the client-side.  ",
+    "name" : "Web Client Technologies"
+  }, {
+    "credits" : "3",
+    "id" : "INF 240",
+    "info" : "This course provides an introduction to the fundamental concepts and technologies involved in the design and publishing of Web pages.",
+    "name" : "Website Development"
+  }, {
+    "credits" : "3",
+    "id" : "INF 120",
+    "info" : "This course is intended as a first year initial Java course. It provides thefundamental principles of procedural programming (both structured and object oriented approaches).",
+    "name" : "Basics in Java Programming"
+  }, {
+    "credits" : "3",
+    "id" : "INF 335",
+    "info" : "The course will explore a set of key approaches and technologies currently used to design and develop Web server-based applications.",
+    "name" : "Web ServerTechnologies"
+  }, {
+    "credits" : "3",
+    "id" : "INF 280",
+    "info" : "The course introduces the fundamental concepts of the database theory and its applications. ",
+    "name" : "Database Systems"
+  }, {
+    "credits" : "3",
+    "id" : "INF 270",
+    "info" : "The course introduces students to the discipline of information systems, providing a broad overview on conceptual and practical aspects of design and use of information systems in social organizations.",
+    "name" : "Principles of Information Systems"
+  }, {
+    "credits" : "3",
+    "id" : "INF 150",
+    "info" : "The course trains students on effective and efficient use of Information Technologies to increase the productivity.",
+    "name" : "Personal Productivity with Information Technologies"
+  }, {
+    "credits" : "3",
+    "id" : "INF 110",
+    "info" : "This course introduces the basic concepts of programming to students who have little or no programming experience using the Visual Basic programming language.",
+    "name" : "Visual Basic Programming"
+  }, {
+    "credits" : "3",
+    "id" : "SCI 111",
+    "info" : "This course introduces some of the basic laws and principles of classicalmechanics, thermodynamics, electricity and magnetism with an emphasis on how they can be used to explain important natural phenomena or technological developments. ",
+    "name" : "Principles of Classical Physics"
+  }, {
+    "credits" : "3",
+    "id" : "ECO 101",
+    "info" : "Analysis of the structure and functioning of modern economic institutions, withspecial emphasis on the market, is provided in this course.",
+    "name" : "Principles of Microeconomics"
+  }, {
+    "credits" : "3",
+    "id" : "MAT 105",
+    "info" : "The course offers a general view to some important ideas and techniques in the field.",
+    "name" : "Elementary LinearAlgebra and Analytical Geometry"
+  }, {
+    "credits" : "3",
+    "id" : "PHI 101",
+    "info" : "This course is an introduction to philosophy through study and discussion of historical and contemporary writings.",
+    "name" : "Introduction to Philosophy"
+  }, {
+    "credits" : "2",
+    "id" : "FAR 203",
+    "info" : "This course provides individual instruction in an instrument or voice for beginners. ",
+    "name" : "Beginning Applied Music"
+  }, {
+    "credits" : "3",
+    "id" : "ECO 102",
+    "info" : "This course provides an analysis of the determinants of national income and employment.  ",
+    "name" : "Principles of Macroeconomics"
+  } , {
+    "credits" : "2",
+    "id" : "FAR 403",
+    "info" : "This course provides individual instruction in an instrument or voice for theadvanced student. ",
+    "name" : "Advanced Applied Music"
+  }, {
+    "credits" : "3",
+    "id" : "COS 231",
+    "info" : "An introduction to the UNIX operating system from the user's point of view.Covers the basic structure of UNIX, the basic set of commands. ",
+    "name" : " Introduction to UNIX"
+  }, {
+    "credits" : "3",
+    "id" : "COS 235",
+    "info" : "Examines the design and organization of modern computer systems, concentrating on the structure and operation of the processor, memory and I/O subsystems, as well as the critical role of performance in driving computer design. ",
+    "name" : " ComputerArchitecture"
+  }, {
+    "credits" : "3",
+    "id" : "HTY 102",
+    "info" : "This course introduces students to the history of the world beginning with the establishment of global exchange between Europe, Africa, and Asia.  ",
+    "name" : " Global History since 1500"
+  }, {
+    "credits" : "3",
+    "id" : "COS 240",
+    "info" : "This course examines the main features supported by object-orientedprogramming languages such as classes, instances, inheritance, polymorphism,etc. ",
+    "name" : " Object-Oriented Programming"
+  } , {
+    "credits" : "3",
+    "id" : "COS 221",
+    "info" : "The fundamental data structures and algorithms to manipulate collections of objects are introduced.",
+    "name" : " Fundamental Data Structures"
+  }, {
+    "credits" : "3",
+    "id" : "ENG 242",
+    "info" : "This course will cover American literature from 1865 to the present. We will readshort stories, novels, poems, and essays by writers working across a century-and-ahalf of American history. ",
+    "name" : " American Literature: 1865 - Present"
+  }],
+  "majors" : [ {
+    "elective" : {
+      "courses" : [ "INF 120", "INF 140", "COS 220", "COS 231", "COS 260", "INF 280", "COS 301", "COS 331", "INF 335", "COS 440", "COS 460", "COS 470" ],
+      "number" : "5"
+    },
+    "id" : "COS",
+    "required" : [ "COS 120", "COS 150", "COS 221", "COS 235", "COS 240", "COS 315", "COS 491" ]
+  }, {
+    "elective" : {
+      "courses" : [ "INF 120", "INF 140", "INF 160", "INF 240", "INF 250", "INF 275", "INF 290", "INF 350", "INF 370", "INF 480", "INF 491" ],
+      "number" : "6"
+    },
+    "id" : "INF",
+    "required" : [ "INF 110", "INF 150", "INF 270", "INF 280", "INF 335", "INF 440" ]
+  } ],
+  "rooms" : [ {
+    "chats" : {
+      "-JglJnGDXcqLq6m844pZ" : {
+        "createdAt" : 1422461711580,
+        "from" : "Vla2",
+        "message" : "Ahh que duro estoy. App pa android y la web at the same time"
+      },
+      "-K-IRic0_CyZHDPyuYuc" : {
+        "createdAt" : 1443435309730,
+        "from" : "alex",
+        "message" : "whatsup"
+      },
+      "-K-J4u-Jiu1K5HB149WR" : {
+        "createdAt" : 1443446104361,
+        "from" : "alex",
+        "message" : "Jhh"
+      },
+      "-K-J4v_YzgTGGz31FjC7" : {
+        "createdAt" : 1443446110837,
+        "from" : "alex",
+        "message" : "Wow"
+      },
+      "-K-KWj3SIv5nJxLwYSRF" : {
+        "createdAt" : 1443470176708,
+        "from" : "alex",
+        "message" : "lkl"
+      },
+      "-K-YYDYtTQonMoPDQ-hA" : {
+        "createdAt" : 1443705448916,
+        "from" : "alex",
+        "message" : "When is the project due?"
+      },
+      "-K-i4hAS9d4vIyA6GNcy" : {
+        "createdAt" : 1443882259341,
+        "from" : "alex",
+        "message" : "Lets go"
+      },
+      "-K-iPhIzn7HViuiEfT5o" : {
+        "createdAt" : 1443887764908,
+        "from" : "alex",
+        "message" : "No"
+      },
+      "-K-iTR82GbUkbnLX4oJC" : {
+        "createdAt" : 1443888743144,
+        "from" : "alex",
+        "message" : "I am done with my project"
+      },
+      "-K-nclje4nNmRTN-M9sJ" : {
+        "createdAt" : 1443975339221,
+        "from" : "alex",
+        "message" : "Hello"
+      },
+      "-K-rvt_dJaREIwop7IuC" : {
+        "createdAt" : 1444047460875,
+        "from" : "alex",
+        "message" : "I am tired"
+      },
+      "-K-ryoNbWiGEDLYv_n9y" : {
+        "createdAt" : 1444048226024,
+        "from" : "alex",
+        "message" : "Hdg"
+      }
+    },
+    "icon" : "ion-code-working",
+    "id" : 0,
+    "name" : "COS 310",
+    "notes" : "Discuss about education, colleges & degrees"
+  }, {
+    "chats" : {
+      "-K-J4cZ7EpykfLmVco9Q" : {
+        "createdAt" : 1443446032902,
+        "from" : "alex",
+        "message" : "Hey"
+      },
+      "-K-J4ePsAuQ3LEDWIOsF" : {
+        "createdAt" : 1443446040518,
+        "from" : "alex",
+        "message" : "What"
+      },
+      "-K-J4fxIsNDGXDzU32y7" : {
+        "createdAt" : 1443446047180,
+        "from" : "alex",
+        "message" : "Hey"
+      },
+      "-K-J4hjdZxpRxoHERFVc" : {
+        "createdAt" : 1443446054133,
+        "from" : "alex",
+        "message" : "No"
+      },
+      "-K-J4kvYstBvCa67Ag53" : {
+        "createdAt" : 1443446067183,
+        "from" : "alex",
+        "message" : "Hello"
+      },
+      "-K-J4n8zlPGM_7I-RG0N" : {
+        "createdAt" : 1443446076297,
+        "from" : "alex",
+        "message" : "Hey"
+      }
+    },
+    "icon" : "ion-speakerphone",
+    "id" : 1,
+    "name" : "POS 101",
+    "notes" : "Discuss about photography, cameras, picture modes"
+  }, {
+    "chats" : {
+      "-JgA5BQCjRj-p7EOHD20" : {
+        "createdAt" : 1421820348392,
+        "from" : "rahatkh",
+        "message" : "I love to hear classical music."
+      },
+      "-K-SDC2c7dmdUOe0lLON" : {
+        "createdAt" : 1443599274395,
+        "from" : "alex",
+        "message" : "sad"
+      },
+      "-K-dqyt6IenmiZL1cIaF" : {
+        "createdAt" : 1443811290895,
+        "from" : "alex",
+        "message" : "No way"
+      },
+      "-K-dr1OIGPt6B0DXdXKy" : {
+        "createdAt" : 1443811305240,
+        "from" : "alex",
+        "message" : "Hdhj"
+      },
+      "-K-dr4iJUtTC5hZ9dfyk" : {
+        "createdAt" : 1443811318886,
+        "from" : "alex",
+        "message" : "Whrn"
+      },
+      "-K-dr61PMt-KsNGUFO5B" : {
+        "createdAt" : 1443811325202,
+        "from" : "alex",
+        "message" : "What"
+      },
+      "-K-drAd2dT1r0tqXosnU" : {
+        "createdAt" : 1443811343289,
+        "from" : "alex",
+        "message" : "Watsup"
+      },
+      "-K-drFWGbEuCDeUlTGcU" : {
+        "createdAt" : 1443811363320,
+        "from" : "alex",
+        "message" : "Whatsup"
+      },
+      "-K-drRoi0c4t57UHYS49" : {
+        "createdAt" : 1443811417689,
+        "from" : "alex",
+        "message" : "Whatsup"
+      },
+      "-K-drWCy1vKgupXWj6lk" : {
+        "createdAt" : 1443811435690,
+        "from" : "alex",
+        "message" : "Whatsup"
+      },
+      "-K-drXWJA41I3PqL3wiH" : {
+        "createdAt" : 1443811441020,
+        "from" : "alex",
+        "message" : "Hhgh"
+      },
+      "-K-drYYx8DZaNnUMjhOK" : {
+        "createdAt" : 1443811446243,
+        "from" : "alex",
+        "message" : "Jggh"
+      }
+    },
+    "icon" : "ion-music-note",
+    "id" : 2,
+    "name" : "INF 280",
+    "notes" : "Talk to fellow music lovers about latest songs & albums"
+  }, {
+    "chats" : {
+      "-JgAI2J4ksJJJA8hxNJK" : {
+        "createdAt" : 1421823734183,
+        "from" : "ankit",
+        "message" : "hiiiii"
+      },
+      "-K-KpE7ZD4XP5CBNb8AO" : {
+        "createdAt" : 1443475288783,
+        "from" : "alex",
+        "message" : "Bhg"
+      },
+      "-K-i4fDUQ6fXHGscb58i" : {
+        "createdAt" : 1443882251333,
+        "from" : "alex",
+        "message" : "Hey"
+      },
+      "-K-ox2eGf4Gb7Fd7F_v_" : {
+        "createdAt" : 1443997432634,
+        "from" : "alex",
+        "message" : "Look"
+      }
+    },
+    "icon" : "ion-ios7-cart",
+    "id" : 3,
+    "name" : "ECO 280",
+    "notes" : "Talk about latest fashion, clothes & accessories"
+  }, {
+    "chats" : {
+      "-K-J4NAFXQzBVrWfvVOu" : {
+        "createdAt" : 1443445965790,
+        "from" : "alex",
+        "message" : "Sent"
+      },
+      "-K-J4OgoMSJ1eNjWlO-p" : {
+        "createdAt" : 1443445972399,
+        "from" : "alex",
+        "message" : "Okay"
+      },
+      "-K-XbckGZ5UzpX7EIklT" : {
+        "createdAt" : 1443689827582,
+        "from" : "alex",
+        "message" : "Hi"
+      }
+    },
+    "icon" : "ion-ios7-musical-notes",
+    "id" : 4,
+    "name" : "FAR 101",
+    "notes" : "Discuss about holidays, vacations & travel deals"
+  }, {
+    "chats" : {
+      "-K-J4NAFXQzBVrWfvVOu" : {
+        "createdAt" : 1443445965790,
+        "from" : "alex",
+        "message" : "Sent"
+      },
+      "-K-J4OgoMSJ1eNjWlO-p" : {
+        "createdAt" : 1443445972399,
+        "from" : "alex",
+        "message" : "Okay"
+      },
+      "-K-XbckGZ5UzpX7EIklT" : {
+        "createdAt" : 1443689827582,
+        "from" : "alex",
+        "message" : "Hi"
+      },
+      "-K-mVJg3TBDgDWFjK5BZ" : {
+        "createdAt" : 1443956345771,
+        "from" : "alex",
+        "message" : "Hey"
+      }
+    },
+    "icon" : "ion-plane",
+    "id" : 5,
+    "name" : "INF 180",
+    "notes" : "Discuss about holidays, vacations & travel deals"
+  }, {
+    "chats" : {
+      "-JgAI2J4ksJJJA8hxNJK" : {
+        "createdAt" : 1421823734183,
+        "from" : "ankit",
+        "message" : "hiiiii"
+      }
+    },
+    "icon" : "ion-code-working",
+    "id" : 6,
+    "name" : "COS 440",
+    "notes" : "Talk about latest fashion, clothes & accessories"
+  }, {
+    "chats" : {
+      "-JgAI2J4ksJJJA8hxNJK" : {
+        "createdAt" : 1421823734183,
+        "from" : "ankit",
+        "message" : "hiiiii"
+      }
+    },
+    "icon" : "ion-woman",
+    "id" : 7,
+    "name" : "INF 491",
+    "notes" : "Talk about latest fashion, clothes & accessories"
+  }, {
+    "chats" : {
+      "-JgAI2J4ksJJJA8hxNJK" : {
+        "createdAt" : 1421823734183,
+        "from" : "ankit",
+        "message" : "hiiiii"
+      },
+      "-K0uivCu3_dgh2LWcJev" : {
+        "createdAt" : 1445168133153,
+        "from" : "Alexandr Zavalii",
+        "message" : "How are you"
+      }
+    },
+    "icon" : "ion-ios7-musical-notes",
+    "id" : 8,
+    "name" : "FAR 400",
+    "notes" : "Talk about latest fashion, clothes & accessories"
+  }, {
+    "chats" : {
+      "-JgAI2J4ksJJJA8hxNJK" : {
+        "createdAt" : 1421823734183,
+        "from" : "ankit",
+        "message" : "hiiiii"
+      }
+    },
+    "icon" : "ion-code-working",
+    "id" : 9,
+    "name" : "COS 315",
+    "notes" : "Talk about latest fashion, clothes & accessories"
+  }, {
+    "chats" : {
+      "-JgAI2J4ksJJJA8hxNJK" : {
+        "createdAt" : 1421823734183,
+        "from" : "ankit",
+        "message" : "hiiiii"
+      },
+      "-K0kaFizIPcQYkzrMA8e" : {
+        "createdAt" : 1444998089823,
+        "from" : "Alexandr Zavalii",
+        "message" : "no way"
+      }
+    },
+    "icon" : "ion-ios7-glasses",
+    "id" : 10,
+    "name" : "ENG 300",
+    "notes" : "Talk about latest fashion, clothes & accessories"
+  } ],
+    "profile" :[ 
+    {
+        "userEmail": "alex@alex.com",
+        "avatar": "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 "
+        
+    },{
+        
+    }],
+  "users" : {
+    "179f2b1d-6d5d-4d2b-b3fb-bf05de069132" : {
+      "courses" : [ {
+        "id" : "ENG 300",
+        "schedule" : [ "Tuesday", "Friday" ],
+        "time" : "10:45"
+      }, {
+        "id" : "COS 315",
+        "schedule" : [ "Monday", "Thursday" ],
+        "time" : "16:00"
+      }, {
+        "id" : "POS 101",
+        "schedule" : [ "Tuesday", "Thursday" ],
+        "time" : "12:30"
+      }, {
+        "id" : "COS 440",
+        "schedule" : [ "Tuesday", "Thursday" ],
+        "time" : "19:30"
+      }, {
+        "id" : "INF 491",
+        "schedule" : [ "Monday" ],
+        "time" : "15:30"
+      }, {
+        "id" : "FAR 400",
+        "schedule" : [ "Wednesday" ],
+        "time" : "18:20"
+      } ],
+      "coursesTaken" : [ {
+        "grade" : "B",
+        "id" : "ENG 101"
+      }, {
+        "grade" : "A-",
+        "id" : "MLL 115"
+      }, {
+        "grade" : "A",
+        "id" : "MAT 103"
+      }, {
+        "grade" : "A",
+        "id" : "COS 120"
+      }, {
+        "grade" : "B+",
+        "id" : "SCI 111"
+      }, {
+        "grade" : "A-",
+        "id" : "MLL 136"
+      }, {
+        "grade" : "A",
+        "id" : "ECO 101"
+      }, {
+        "grade" : "A-",
+        "id" : "ENG 102"
+      }, {
+        "grade" : "B",
+        "id" : "STA 105"
+      }, {
+        "grade" : "A",
+        "id" : "INF 110"
+      }, {
+        "grade" : "B+",
+        "id" : "MAT 105"
+      }, {
+        "grade" : "B",
+        "id" : "PHI 101"
+      }, {
+        "grade" : "A-",
+        "id" : "FAR 203"
+      }, {
+        "grade" : "A-",
+        "id" : "ECO 102"
+      }, {
+        "grade" : "B",
+        "id" : "COS 150"
+      }, {
+        "grade" : "A-",
+        "id" : "INF 150"
+      }, {
+          "grade" : "A",
+          "id" : "FAR 403"
+      } , {
+          "grade" : "B+",
+          "id" : "COS 221"
+      } , {
+          "grade" : "B+",
+          "id" : "INF 280"
+      } , {
+          "grade" : "B+",
+          "id" : "INF 370"
+      } , {
+          "grade" : "C+",
+          "id" : "ENG 242"
+      } , {
+          "grade" : "A-",
+          "id" : "INF 120"
+      } , {
+          "grade" : "A",
+          "id" : "FAR 403"
+      } , {
+          "grade" : "A-",
+          "id" : "COS 231"
+      }, {
+          "grade" : "B+",
+          "id" : "COS 235"
+      }, {
+          "grade" : "A-",
+          "id" : "INF 240"
+      },{
+          "grade" : "B-",
+          "id" : "HTY 102"
+      },{
+          "grade" : "A-",
+          "id" : "COS 240"
+      }],
+      "displayName" : "Alexandr Zavalii",
+      "email" : "alex@alex.com",
+      "major" : [ "COS", "INF" ],
+      "standing" : "senior",
+      "wish" : [ "COS 150", "AMS 301" ]
+        
+    },
+    "simplelogin:10" : {
+      "courses" : [ "COS310", "POS101", "INF280", "ECO280", "FAR101" ],
+      "displayName" : "rahulluthra",
+      "email" : "rahul@test.com",
+      "major" : "JMC",
+      "wish" : [ "null" ]
+    },
+    "simplelogin:11" : {
+      "courses" : [ "COS310", "POS101", "INF280", "ECO280", "FAR101" ],
+      "displayName" : "rahatkh",
+      "email" : "rahat@khanna.com",
+      "major" : "POS",
+      "wish" : [ "null" ]
+    }
+  }
+}
