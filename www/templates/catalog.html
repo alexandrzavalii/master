@@ -14,7 +14,7 @@
            <div class="card padding" ng-repeat="course in catalog | filter: searchQuery | orderBy: 'id'">
 
        <div class="item item-divider item-icon-right">
-{{course.id}} <i id="like" ng-class="{'icon ion-ios7-star': liked, 'icon ion-ios7-star-outline': !liked}" ng-click="liked=!liked; wishlistfunction(course,liked)"></i>
+{{course.id}} <i id="like" ng-class="{'icon ion-ios7-star': liked, 'icon ion-ios7-star-outline': !liked}" ng-click="liked=!liked; addToWish(course,liked)"></i>
   </div>
   <div class="item item-text-wrap">
       <h5>{{course.name}}</h5>

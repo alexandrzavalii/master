@@ -8,7 +8,6 @@ angular.module('mychat.services', ['firebase'])
 .factory('Chats', function ( Rooms, $firebaseArray) {
 
     var selectedRoomId;
-    var ref = new Firebase(firebaseUrl);
     var chats;
 
     return {
@@ -68,7 +67,6 @@ angular.module('mychat.services', ['firebase'])
 
 .factory('Catalog', function ($firebaseArray) {
     // Might use a resource here that returns a JSON array
-    var ref = new Firebase(firebaseUrl);
  var catalog = $firebaseArray(ref.child('catalog'));
  
     return {
@@ -142,7 +140,7 @@ angular.module('mychat.services', ['firebase'])
 
 .factory('Major', function ($firebaseArray) {
     // Might use a resource here that returns a JSON array
-    var ref = new Firebase(firebaseUrl);
+
  var major = $firebaseArray(ref.child('majors'));
  
     return {
@@ -153,7 +151,6 @@ angular.module('mychat.services', ['firebase'])
 })
 .factory('Rooms', function ($firebaseArray) {
     // Might use a resource here that returns a JSON array
-    var ref = new Firebase(firebaseUrl);
     var rooms = $firebaseArray(ref.child('rooms'));
 
     return {

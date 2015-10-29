@@ -3,7 +3,7 @@ angular.module('mychat.controllers', [])
 .controller('LoginCtrl', function ($scope, $ionicModal, $state, $firebaseAuth, $ionicLoading, $rootScope) {
     //console.log('Login Controller Initialized');
 
-    var ref = new Firebase($scope.firebaseUrl);
+
     var auth = $firebaseAuth(ref);
 
     $ionicModal.fromTemplateUrl('templates/signup.html', {
@@ -248,33 +248,54 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
     }
 })
 
-.controller('CatalogCtrl', function ($scope, Catalog, $state, $ionicLoading) {
+.controller('CatalogCtrl', function ($scope, Catalog, $state, $ionicLoading, $firebaseObject) {
 
+    var fbAuth= ref.getAuth();
+      if(fbAuth) {
 var userName = $scope.displayName;
-var UserUid= window.localStorage['UserUid'];
-var url="https://aubg.firebaseio.com/users/"+UserUid+"/wish";
-    $scope.wishid=userName.wish;
-    var urlUser = new Firebase(url);
-// Modify the 'first' and 'last' children, but leave other data at fredNameRef unchanged
-
+$scope.wishid=userName.wish;
     $scope.catalog = Catalog.all();
+    var url=firebaseUrl+"/users/"+fbAuth.uid+"/wish";
+    var urlUser = new Firebase(url);
+
+            var userReference = ref.child("users/" + fbAuth.uid);
+          var syncObject= $firebaseObject(userReference.child("wish"));
+console.log(syncObject);
+
+
+
+    } else {
+        $state.go("login");
+    }
+
+
+
+// edit this one;
 $scope.clearSearch = function() { $scope.searchQuery = ''; }
     
     
-$scope.wishlistfunction=function(course,liked){
+
+$scope.addToWish=function(course,liked){
      var exists= false;
+
+    console.log(course.id);
       var index = userName.wish.indexOf(course.id);  
+
      if (index > -1) { exists=true}else exists = false;
      
      if(liked==true && exists==false) {
          
             userName.wish.push(course.id); 
-          urlUser.update(userName.wish);    
+         console.log(urlUser);
+            urlUser.set(userName.wish );
+
       } else if(liked==false && exists==true) {
           
           userName.wish.splice(index, 1); 
                urlUser.remove();
-           urlUser.update(userName.wish);
+
+         urlUser.set(userName.wish );
+         //  urlUser.update(userName.wish);
       }
 }
  
@@ -283,7 +304,7 @@ $scope.wishdelete=function(course){
                          if (index > -1) {
      userName.wish.splice(index, 1); 
      urlUser.remove();
-     urlUser.update(userName.wish);
+                   urlUser.set(userName.wish );
                                          }
                 console.log(userName.wish);
 }
@@ -300,7 +321,6 @@ $scope.filterwish = function(course) {
     $ionicHistory.clearHistory();
 
     // gets the ID of a USER
-    var ref = new Firebase(firebaseUrl);
     var fbAuth= ref.getAuth();
       if(fbAuth) {
         var userReference = ref.child("profile/" + fbAuth.uid);
@@ -353,7 +373,7 @@ $scope.filterwish = function(course) {
 .controller('LeftMenuCtrl', function($scope, $location, $firebaseObject) {
 
 
-    var ref = new Firebase(firebaseUrl);
+
     var fbAuth= ref.getAuth();
           if(fbAuth) {
         var userReference = ref.child("profile/" + fbAuth.uid);
