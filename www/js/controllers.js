@@ -109,13 +109,18 @@ $scope.timeFilter = function(item){
 
 
 })
-.controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Dash, dataLoad, $ionicPopover) {
+.controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Dash, dataLoad, $ionicPopover, $rootScope) {
 //dataload is resolve function for loading data before loading state
 
    $ionicPopover.fromTemplateUrl('templates/popoverStats.html', {
     scope: $scope,
   }).then(function(popover) {
     $scope.popover = popover;
+  });
+
+   $ionicPopover.fromTemplateUrl('templates/popoverStatsMajors.html', {scope: $scope,}).then(function(popover) {
+
+    $scope.popoverMajor = popover;
   });
 
 
@@ -146,14 +151,7 @@ $scope.credits=Dash.credits(coursesTaken,catalog); //count for the credits of th
 var data = Dash.data($scope.credits); 
 console.log($scope.credits);
       $timeout(function(){
-          //avatar load
 
-
-
-
-
-
-    //avatar endload
 var totalCredits = document.getElementById("totalCredits").getContext("2d");
 var totalPie = new Chart(totalCredits).Pie(data,{
     animateScale: true,
@@ -184,9 +182,9 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
             }
           }
 
-     }, 1000);
+     }, 500);
 
-    $scope.ChatRoom = function(user){
+    $scope.ChatRoom = function(){
     $state.go('tab.rooms');
     }
       $scope.toggleLeft = function() {
@@ -200,6 +198,7 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
       $state.go('timetable');  
     };
 })
+
 .controller('ChatCtrl', function ($scope, Chats, $state) {
     //console.log("Chat Controller initialized");
 
@@ -257,13 +256,6 @@ $scope.wishid=userName.wish;
     $scope.catalog = Catalog.all();
     var url=firebaseUrl+"/users/"+fbAuth.uid+"/wish";
     var urlUser = new Firebase(url);
-
-            var userReference = ref.child("users/" + fbAuth.uid);
-          var syncObject= $firebaseObject(userReference.child("wish"));
-console.log(syncObject);
-
-
-
     } else {
         $state.go("login");
     }
@@ -295,7 +287,6 @@ $scope.addToWish=function(course,liked){
                urlUser.remove();
 
          urlUser.set(userName.wish );
-         //  urlUser.update(userName.wish);
       }
 }
  
@@ -304,7 +295,7 @@ $scope.wishdelete=function(course){
                          if (index > -1) {
      userName.wish.splice(index, 1); 
      urlUser.remove();
-                   urlUser.set(userName.wish );
+     urlUser.set(userName.wish );
                                          }
                 console.log(userName.wish);
 }
@@ -321,24 +312,6 @@ $scope.filterwish = function(course) {
     $ionicHistory.clearHistory();
 
     // gets the ID of a USER
-    var fbAuth= ref.getAuth();
-      if(fbAuth) {
-        var userReference = ref.child("profile/" + fbAuth.uid);
-          var syncObject= $firebaseObject(userReference.child("avatar"));
-
-         $scope.avatar = syncObject;
-          console.log(syncObject.url);
-
-    } else {
-        $state.go("login");
-    }
-
-
-
-//urlUserImage.child('avatar').set('img');
-    $scope.reload= function() {
-        $state.go($state.current, {}, {reload: true});
-    }
 
 
     $scope.uploadAvatar = function() {
@@ -356,11 +329,8 @@ $scope.filterwish = function(course) {
         $cordovaCamera.getPicture(options).then(function(imageData) {
         syncObject.url=imageData;
          syncObject.$save().then(function(){
-
            alert("Image has been uploaded");
          });
-
-
                 }, function(error) {
             alert.error(error);
         });
@@ -370,18 +340,15 @@ $scope.filterwish = function(course) {
 
 
 })
-.controller('LeftMenuCtrl', function($scope, $location, $firebaseObject) {
-
+.controller('LeftMenuCtrl', function($scope, $location, $firebaseObject,$rootScope) {
 
 
     var fbAuth= ref.getAuth();
           if(fbAuth) {
         var userReference = ref.child("profile/" + fbAuth.uid);
           var syncObject= $firebaseObject(userReference.child("avatar"));
-
-         $scope.avatar = syncObject;
+         $rootScope.avatar = syncObject;
           console.log(syncObject.url);
-
     } else {
         $state.go("login");
     }

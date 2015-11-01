@@ -49,6 +49,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
         }
 
 
+
         $rootScope.$on("$stateChangeError", function (event, toState, toParams, fromState, fromParams, error) {
 
             // We can catch the error thrown when the $requireAuth promise is rejected
@@ -78,7 +79,6 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
             // Auth refers to our $firebaseAuth wrapper in the example above
             "currentAuth": ["Auth",
                 function (Auth) {
-
                     // $waitForAuth returns a promise so the resolve waits for it to complete
                     return Auth.$waitForAuth();
         }]
@@ -93,7 +93,6 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
     templateUrl: 'templates/menu.html',
         controller: 'DashCtrl',
             resolve: {
-
             // controller will not be loaded until $requireAuth resolves
             // Auth refers to our $firebaseAuth wrapper in the example above
             "currentAuth": ["Auth",
@@ -103,7 +102,8 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
                     // If the promise is rejected, it will throw a $stateChangeError (see above)
                     return Auth.$requireAuth();
       }],
-"dataLoad": function( $q, $timeout,$rootScope, Catalog, Major ) {   var asynchData = $q.defer();
+"dataLoad": function( $q, $timeout,$rootScope, Catalog, Major ) {
+    var asynchData = $q.defer();
         $timeout(function(){
           asynchData.resolve({
             userData: function() {
@@ -121,19 +121,14 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
 
         return asynchData.promise;
       }
-
             }
-
-
-
   })
 
   .state('app.dashboard', {
     url: '/dashboard',
     views: {
       'menuContent': {
-        templateUrl: 'templates/dashboard.html',
-          controller: 'DashCtrl'
+        templateUrl: 'templates/dashboard.html'
       }
     }
   })
