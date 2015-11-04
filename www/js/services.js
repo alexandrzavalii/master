@@ -5,61 +5,6 @@ angular.module('mychat.services', ['firebase'])
             return $firebaseAuth(ref);
 }])
 
-.factory('Chats', function ( Rooms, $firebaseArray) {
-
-    var selectedRoomId;
-    var chats;
-
-    return {
-        all: function () {
-            return chats;
-        },
-        remove: function (chat) {
-            chats.$remove(chat).then(function (ref) {
-                ref.key() === chat.$id; // true item has been removed
-            });
-        },
-        get: function (chatId) {
-            for (var i = 0; i < chats.length; i++) {
-                if (chats[i].id === parseInt(chatId)) {
-                    return chats[i];
-                }
-            }
-            return null;
-        },
-        getSelectedRoomName: function () {
-            var selectedRoom;
-            if (selectedRoomId && selectedRoomId != null) {
-                selectedRoom = Rooms.get(selectedRoomId);
-                if (selectedRoom)
-                    return selectedRoom.name;
-                else
-                    return null;
-            } else
-                return null;
-        },
-        selectRoom: function (roomId) {
-            console.log("selecting the room with id: " + roomId);
-            selectedRoomId = roomId;
-            if (!isNaN(roomId)) {
-                chats = $firebaseArray(ref.child('rooms').child(selectedRoomId).child('chats'));
-            }
-        },
-        send: function (from, message) {
-            console.log("sending message from :" + from.displayName + " & message is " + message);
-            if (from && message) {
-                var chatMessage = {
-                    from: from.displayName,
-                    message: message,
-                    createdAt: Firebase.ServerValue.TIMESTAMP
-                };
-                chats.$add(chatMessage).then(function (data) {
-                    console.log("message added");
-                });
-            }
-        }
-    }
-})
 
 /**
  * Simple Service which returns Rooms collection as Array from Salesforce & binds to the Scope in Controller
@@ -149,6 +94,82 @@ angular.module('mychat.services', ['firebase'])
         }
     }
 })
+.factory('Chats', function ( Rooms, $firebaseArray, $timeout, $rootScope) {
+
+    var selectedRoomId;
+    var chats;
+    var profiles;
+
+    return {
+        all: function () {
+
+           $timeout(function(){
+            profiles.$loaded().then(function(notes) {
+                for (var i = 0; i < chats.length; i++)
+                    for (var j = 0; j < profiles.length; j++)
+                        if(chats[i].from==profiles[j].name){
+                                  chats[i].avatar=profiles[j].avatar;
+                        }else chats[i].avatar=profiles[0].avatar;
+
+
+                })
+
+            })
+            return chats;
+        },
+
+        remove: function (chat) {
+            chats.$remove(chat).then(function (ref) {
+                ref.key() === chat.$id; // true item has been removed
+            });
+        },
+        get: function (chatId) {
+            for (var i = 0; i < chats.length; i++) {
+                if (chats[i].id === parseInt(chatId)) {
+                    return chats[i];
+                }
+            }
+            return null;
+        },
+        getSelectedRoomName: function () {
+            var selectedRoom;
+            if (selectedRoomId && selectedRoomId != null) {
+                selectedRoom = Rooms.get(selectedRoomId);
+                if (selectedRoom)
+                    return selectedRoom.name;
+                else
+                    return null;
+            } else
+                return null;
+        },
+        selectRoom: function (roomId) {
+            console.log("selecting the room with id: " + roomId);
+            selectedRoomId = roomId;
+
+            if (!isNaN(roomId)) {
+                profiles = $firebaseArray(ref.child('profile'));
+                chats = $firebaseArray(ref.child('rooms').child(selectedRoomId).child('chats'));
+
+            }
+        },
+        send: function (from, message) {
+
+            console.log("sending message from :" + from.displayName + " & message is " + message);
+            if (from && message) {
+                var chatMessage = {
+                    from: from.displayName,
+                    message: message,
+                    avatar: $rootScope.avatar,
+                    createdAt: Firebase.ServerValue.TIMESTAMP
+                };
+                chats.$add(chatMessage).then(function (data) {
+                    console.log("message added");
+                });
+            }
+        }
+    }
+})
+
 .factory('Rooms', function ($firebaseArray) {
     // Might use a resource here that returns a JSON array
     var rooms = $firebaseArray(ref.child('rooms'));
@@ -156,6 +177,7 @@ angular.module('mychat.services', ['firebase'])
     return {
         all: function (courses) {
             var selectRooms=[];
+                        rooms.$loaded().then(function(notes) {
                 for(i=0;i<courses.length;i++)
             for(j=0; j<rooms.length;j++)
                 if( courses[i].id== rooms[j].name){
@@ -163,6 +185,7 @@ angular.module('mychat.services', ['firebase'])
                    selectRooms.push(rooms[j]);
                  break;   
                 }
+                        })
             return selectRooms;
         },
         get: function (roomId) {

@@ -13,7 +13,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 // 'mychat.controllers' is found in controllers.js
 var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mychat.controllers', 'mychat.services','angles','ngCordova'])
 
-.run(function ($ionicPlatform, $rootScope, $location, Auth, $ionicLoading) {
+.run(function ($ionicPlatform, $rootScope, $location, Auth, $ionicLoading, $ionicHistory, $timeout) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -45,6 +45,8 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
             $ionicLoading.show({
                 template: 'Logging Out...'
             });
+
+
             Auth.$unauth();
         }
 
@@ -58,6 +60,13 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
                 $location.path("/login");
             }
         });
+
+        try {
+cordova.plugins.Keyboard.disableScroll(true);
+}catch(e) {
+console.log("NOT IOS: "+e);
+}
+
     });
 })
 
@@ -74,6 +83,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
         url: "/login",
         templateUrl: "templates/login.html",
         controller: 'LoginCtrl',
+
         resolve: {
             // controller will not be loaded until $waitForAuth resolves
             // Auth refers to our $firebaseAuth wrapper in the example above
@@ -92,6 +102,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
     abstract: true,
     templateUrl: 'templates/menu.html',
         controller: 'DashCtrl',
+        cache: false,
             resolve: {
             // controller will not be loaded until $requireAuth resolves
             // Auth refers to our $firebaseAuth wrapper in the example above
@@ -126,6 +137,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
 
   .state('app.dashboard', {
     url: '/dashboard',
+
     views: {
       'menuContent': {
         templateUrl: 'templates/dashboard.html'
@@ -134,6 +146,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
   })
      .state('app.profile', {
     url: '/profile',
+
     views: {
       'menuContent': {
         templateUrl: 'templates/profile.html',
@@ -144,6 +157,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
     .state('app.catalog', {
          cache: false,
     url: '/catalog',
+
     views: {
       'menuContent': {
         templateUrl: 'templates/catalog.html',
@@ -154,6 +168,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
   })
         .state('app.wish', {
     url: '/wish',
+
     views: {
       'menuContent': {
         templateUrl: 'templates/wish.html',
@@ -164,6 +179,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
   })
     .state('app.timetable', {
     url: '/timetable',
+
     views: {
       'menuContent': {
         templateUrl: 'templates/timetable.html',
@@ -173,6 +189,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
   })
         .state('app.settings', {
     url: '/settings',
+
     views: {
       'menuContent': {
         templateUrl: 'templates/settings.html',
@@ -184,6 +201,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
     .state('tab', {
         url: "/tab",
         abstract: true,
+
         templateUrl: "templates/chat/tabs.html",
         resolve: {
             // controller will not be loaded until $requireAuth resolves
@@ -202,6 +220,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
 
     .state('tab.rooms', {
         url: '/rooms',
+
         views: {
             'tab-rooms': {
                 templateUrl: 'templates/chat/tab-rooms.html',
@@ -217,7 +236,9 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
               $timeout(function(){
                asynchData.resolve({
                roomData: function() {
+
                    var courses = $rootScope.displayName.courses;
+
               return Rooms.all(courses);
             }
           });

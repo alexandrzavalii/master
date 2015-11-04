@@ -49,7 +49,7 @@ angular.module('mychat.controllers', [])
                 password: user.pwdForLogin
             }).then(function (authData) { 
                 console.log("Logged in as:" + authData.uid);
-             window.localStorage['UserUid'] = authData.uid;
+
                 
                 ref.child("users").child(authData.uid).once('value', function (snapshot) {
                     var val = snapshot.val();
@@ -71,6 +71,7 @@ angular.module('mychat.controllers', [])
             alert("Please enter email and password both");
 
     }
+
 })
 
 .controller('TimetableCtrl', function ($scope, $state, $ionicPopover) {
@@ -150,6 +151,10 @@ $scope.timeFilter = function(item){
 $scope.credits=Dash.credits(coursesTaken,catalog); //count for the credits of the courses taken
 var data = Dash.data($scope.credits); 
 console.log($scope.credits);
+
+
+
+
       $timeout(function(){
 
 var totalCredits = document.getElementById("totalCredits").getContext("2d");
@@ -199,12 +204,15 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
     };
 })
 
-.controller('ChatCtrl', function ($scope, Chats, $state) {
+.controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject) {
     //console.log("Chat Controller initialized");
+
+
 
     $scope.IM = {
         textMessage: ""
     };
+
 
     Chats.selectRoom($state.params.roomId);
 
@@ -214,10 +222,12 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
     if (roomName) {
         $scope.roomName = " - " + roomName;
         $scope.chats = Chats.all();
+
     }
 
     $scope.sendMessage = function (msg) {
         console.log(msg);
+
         Chats.send($scope.displayName, msg);
         $scope.IM.textMessage = "";
     }
@@ -235,8 +245,6 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
     //load rooms using resolve
     $scope.rooms = roomLoad.roomData();
 
-
-    
     $scope.openChatRoom = function (roomId) {
         $state.go('tab.chat', {
             roomId: roomId
@@ -340,7 +348,7 @@ $scope.filterwish = function(course) {
 
 
 })
-.controller('LeftMenuCtrl', function($scope, $location, $firebaseObject,$rootScope) {
+.controller('LeftMenuCtrl', function($scope, $location, $firebaseObject,$rootScope, $timeout) {
 
 
     var fbAuth= ref.getAuth();
@@ -348,7 +356,21 @@ $scope.filterwish = function(course) {
         var userReference = ref.child("profile/" + fbAuth.uid);
           var syncObject= $firebaseObject(userReference.child("avatar"));
          $rootScope.avatar = syncObject;
-          console.log(syncObject.url);
+              var avatar= syncObject
+
+             $rootScope.avatar.$loaded().then(function(notes) {
+
+                 if (avatar.url==null){
+        var userReference = ref.child("profile/");
+          var syncObject= $firebaseObject(userReference.child("0").child("avatar"));
+         $rootScope.avatar = syncObject;
+
+                                            }
+             })
+
+
+
+
     } else {
         $state.go("login");
     }
