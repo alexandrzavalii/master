@@ -112,7 +112,7 @@ $scope.timeFilter = function(item){
 })
 .controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Dash, dataLoad, $ionicPopover, $rootScope) {
 //dataload is resolve function for loading data before loading state
-
+dataLoad.avatar();
    $ionicPopover.fromTemplateUrl('templates/popoverStats.html', {
     scope: $scope,
   }).then(function(popover) {
@@ -315,7 +315,7 @@ $scope.filterwish = function(course) {
     };
 
 })
-.controller('ProfileCtrl', function($scope, $ionicHistory, $cordovaCamera,$timeout, dataLoad, $state, $firebaseObject) {
+.controller('ProfileCtrl', function($scope, $ionicHistory, $cordovaCamera,$timeout, dataLoad, $state, $firebaseObject, $rootScope) {
 
     $ionicHistory.clearHistory();
 
@@ -335,6 +335,10 @@ $scope.filterwish = function(course) {
             saveToPhotoAlbum: false
         };
         $cordovaCamera.getPicture(options).then(function(imageData) {
+            var fbAuth= ref.getAuth();
+var userReference = ref.child("profile/" + fbAuth.uid);
+          var syncObject= $firebaseObject(userReference.child("avatar"));
+         $rootScope.avatar = syncObject;
         syncObject.url=imageData;
          syncObject.$save().then(function(){
            alert("Image has been uploaded");
@@ -351,29 +355,7 @@ $scope.filterwish = function(course) {
 .controller('LeftMenuCtrl', function($scope, $location, $firebaseObject,$rootScope, $timeout) {
 
 
-    var fbAuth= ref.getAuth();
-          if(fbAuth) {
-        var userReference = ref.child("profile/" + fbAuth.uid);
-          var syncObject= $firebaseObject(userReference.child("avatar"));
-         $rootScope.avatar = syncObject;
-              var avatar= syncObject
 
-             $rootScope.avatar.$loaded().then(function(notes) {
-
-                 if (avatar.url==null){
-        var userReference = ref.child("profile/");
-          var syncObject= $firebaseObject(userReference.child("0").child("avatar"));
-         $rootScope.avatar = syncObject;
-
-                                            }
-             })
-
-
-
-
-    } else {
-        $state.go("login");
-    }
 
 
     $scope.items=[

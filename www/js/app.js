@@ -113,7 +113,7 @@ console.log("NOT IOS: "+e);
                     // If the promise is rejected, it will throw a $stateChangeError (see above)
                     return Auth.$requireAuth();
       }],
-"dataLoad": function( $q, $timeout,$rootScope, Catalog, Major ) {
+"dataLoad": function( $q, $timeout,$rootScope, Catalog, Major, $firebaseObject ) {
     var asynchData = $q.defer();
         $timeout(function(){
           asynchData.resolve({
@@ -125,6 +125,27 @@ console.log("NOT IOS: "+e);
             },
               major: function() {
                   return Major.all();
+              },
+              avatar: function() {
+                      var fbAuth= ref.getAuth();
+          if(fbAuth) {
+        var userReference = ref.child("profile/" + fbAuth.uid);
+          var syncObject= $firebaseObject(userReference.child("avatar"));
+         $rootScope.avatar = syncObject;
+              var avatar= syncObject;
+
+             $rootScope.avatar.$loaded().then(function(notes) {
+                 if (avatar.url==null){
+        var userReference = ref.child("profile/");
+          var syncObject= $firebaseObject(userReference.child("0").child("avatar"));
+         $rootScope.avatar = syncObject;
+
+                                            }
+             })
+    } else {
+        $state.go("login");
+    }
+                  return
               }
 
           });

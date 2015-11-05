@@ -94,6 +94,7 @@ angular.module('mychat.services', ['firebase'])
         }
     }
 })
+
 .factory('Chats', function ( Rooms, $firebaseArray, $timeout, $rootScope) {
 
     var selectedRoomId;
