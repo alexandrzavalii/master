@@ -1,3 +1,8 @@
+<style> .item-content{
+    background-color: white !important;
+
+}</style>
+
 <ion-view view-title="Chat Room {{ roomName }}">
                 <ion-nav-bar class="bar-header bar-light">
 <ion-nav-buttons side="primary">
@@ -14,6 +19,8 @@
             <ion-item ng-if="chats.length == 0" class="textCenter">
                 <h4>No messages in this room. Send message to start.</h4>
             </ion-item>
+
+
             <ion-item class="item item-avatar item-borderless message" ng-repeat="chat in chats | orderBy:'createdAt':false" type="item-text-wrap  ">
                 <img ng-src="data:image/jpg;base64,{{chat.avatar.url}}"/>
                 <h4>{{chat.from}} :</h4>
@@ -24,12 +31,9 @@
                     Delete
                 </ion-option-button>
             </ion-item>
+
         </ion-list>
-        <ion-list ng-hide="roomName">
-            <ion-item class="textCenter">
-                <h4>Please select a room to chat first.</h4>
-            </ion-item>
-        </ion-list>
+
 
     </ion-content>
 

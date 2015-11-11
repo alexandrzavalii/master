@@ -1,9 +1,18 @@
-      <ion-popover-view>
-        <ion-content class="padding">
-<h4>Credits : {{credits}}   /120
+<style>.popover { height:12em; }</style>
+<ion-popover-view>
+        <ion-content>
+
+            <div class="card">
+  <div class="item item-text-wrap">
+    <h4>Credits : {{credits}}   /120
     <p>Courses: {{coursesTaken.length}}</p>
     <p>Standing: {{displayName.standing}}</p>
     <p>Left courses: {{(120-credits)/3}}</p>
     </h4>
+  </div>
+</div>
+
+
+
           </ion-content>
       </ion-popover-view>

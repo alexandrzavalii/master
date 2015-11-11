@@ -1,0 +1,15 @@
+
+<style> .no-padding {
+    padding: 0px !important;
+}
+</style>
+<div class="modal image-modal transparent no-padding" ng-click="closeModal()" >
+    <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="true" active-slide="activeSlide">
+
+            <img ng-src="data:image/jpg;base64,{{avatar.url}}" class="fullscreen-image"/>
+
+    </ion-slide-box>
+    <button class="button button-full button-positive no-padding" ng-click=uploadAvatar()>
+  upload new picture
+</button>
+</div>

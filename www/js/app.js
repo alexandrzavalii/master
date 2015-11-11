@@ -222,7 +222,7 @@ console.log("NOT IOS: "+e);
     .state('tab', {
         url: "/tab",
         abstract: true,
-
+        cache: false,
         templateUrl: "templates/chat/tabs.html",
         resolve: {
             // controller will not be loaded until $requireAuth resolves

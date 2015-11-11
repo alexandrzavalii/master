@@ -3,7 +3,6 @@ angular.module('mychat.controllers', [])
 .controller('LoginCtrl', function ($scope, $ionicModal, $state, $firebaseAuth, $ionicLoading, $rootScope) {
     //console.log('Login Controller Initialized');
 
-
     var auth = $firebaseAuth(ref);
 
     $ionicModal.fromTemplateUrl('templates/signup.html', {
@@ -204,32 +203,32 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
     };
 })
 
-.controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject) {
+.controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject, $ionicScrollDelegate, $timeout) {
     //console.log("Chat Controller initialized");
 
 
 
     $scope.IM = {
+
         textMessage: ""
     };
 
-
     Chats.selectRoom($state.params.roomId);
-
     var roomName = Chats.getSelectedRoomName();
-
     // Fetching Chat Records only if a Room is Selected
     if (roomName) {
         $scope.roomName = " - " + roomName;
         $scope.chats = Chats.all();
-
+        $timeout(function(){
+           $ionicScrollDelegate.scrollBottom();
+        })
     }
 
     $scope.sendMessage = function (msg) {
         console.log(msg);
-
         Chats.send($scope.displayName, msg);
         $scope.IM.textMessage = "";
+          $ionicScrollDelegate.scrollBottom();
     }
 
     $scope.remove = function (chat) {
@@ -315,14 +314,13 @@ $scope.filterwish = function(course) {
     };
 
 })
-.controller('ProfileCtrl', function($scope, $ionicHistory, $cordovaCamera,$timeout, dataLoad, $state, $firebaseObject, $rootScope) {
+.controller('ProfileCtrl', function($scope, $ionicHistory, $cordovaCamera, $firebaseObject, $rootScope, $ionicModal) {
 
     $ionicHistory.clearHistory();
 
     // gets the ID of a USER
 
-
-    $scope.uploadAvatar = function() {
+     $scope.uploadAvatar = function() {
         var options = {
             quality : 75,
             destinationType : Camera.DestinationType.DATA_URL,
@@ -350,13 +348,30 @@ var userReference = ref.child("profile/" + fbAuth.uid);
 
 
 
+$scope.showImages = function(index) {
+ $scope.activeSlide = index;
+ $scope.showModal('templates/image-popover.html');
+ }
+
+ $scope.showModal = function(templateUrl) {
+ $ionicModal.fromTemplateUrl(templateUrl, {
+ scope: $scope,
+ animation: 'slide-in-up'
+ }).then(function(modal) {
+ $scope.modal = modal;
+ $scope.modal.show();
+ });
+ }
+
+ // Close the modal
+ $scope.closeModal = function() {
+ $scope.modal.hide();
+ $scope.modal.remove()
+ };
+
 
 })
-.controller('LeftMenuCtrl', function($scope, $location, $firebaseObject,$rootScope, $timeout) {
-
-
-
-
+.controller('LeftMenuCtrl', function($scope, $location) {
 
     $scope.items=[
         {
