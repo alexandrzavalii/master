@@ -3,7 +3,7 @@
 
         <div class="card">
 
-        <div class="item item-text-wrap item-icon-left" ng-repeat="room in rooms" type="item-text-wrap" ng-click="openChatRoom(room.id)">
+        <div class="item item-text-wrap item-icon-left" ng-repeat="room in rooms" type="item-text-wrap" ui-sref="app.chat({roomId: room.id})">
    <i class="icon {{room.icon}}"><h2>{{room.name}}</h2></i>
 
         </div>

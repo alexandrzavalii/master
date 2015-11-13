@@ -207,7 +207,6 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
 
 .controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject, $ionicScrollDelegate, $timeout) {
     //console.log("Chat Controller initialized");
-
     $scope.IM = {
 
         textMessage: ""
@@ -243,11 +242,6 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
 .controller('RoomsCtrl', function ($scope, $state, dataLoad){
    $scope.rooms=dataLoad.roomData();
 
-    $scope.openChatRoom = function (roomId) {
-        $state.go('app.chat', {
-            roomId: roomId
-        });
-    }
 })
 .controller('CatalogCtrl', function ($scope, Catalog, $state, $ionicLoading, $firebaseObject) {
 
@@ -389,13 +383,12 @@ $scope.showImages = function(index) {
         name: 'settings',
         url: '/app/settings',
         icon: 'icon ion-gear-b'
-    },
-        {
+    },{
             name: 'chat',
             url: '/app/rooms',
             icon: 'icon ion-chatbubble'
         }
-                 ]
+    ]
 
   $scope.isItemActive = function(item) {
     return $location.path().indexOf(item.url) > -1;

@@ -238,7 +238,7 @@ console.log("NOT IOS: "+e);
     }
   })
    .state('app.chat', {
-        url: '/chat/:roomId',
+        url: '/:roomId',
         views: {
             'menuContent': {
                 templateUrl: 'templates/chat.html',
