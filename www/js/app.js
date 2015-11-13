@@ -15,6 +15,8 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
 
 .run(function ($ionicPlatform, $rootScope, $location, Auth, $ionicLoading, $ionicHistory, $timeout) {
     $ionicPlatform.ready(function () {
+
+
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -62,6 +64,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
         });
 
         try {
+
 cordova.plugins.Keyboard.disableScroll(true);
 }catch(e) {
 console.log("NOT IOS: "+e);
@@ -113,7 +116,7 @@ console.log("NOT IOS: "+e);
                     // If the promise is rejected, it will throw a $stateChangeError (see above)
                     return Auth.$requireAuth();
       }],
-"dataLoad": function( $q, $timeout,$rootScope, Catalog, Major, $firebaseObject ) {
+"dataLoad": function( $q, $timeout,$rootScope, Catalog, Major, $firebaseObject,Rooms ) {
     var asynchData = $q.defer();
         $timeout(function(){
           asynchData.resolve({
@@ -124,7 +127,13 @@ console.log("NOT IOS: "+e);
               return Catalog.all();
             },
               major: function() {
+
                   return Major.all();
+              },
+              roomData: function() {
+                var courses = $rootScope.displayName.courses;
+              return Rooms.all(courses);
+
               },
               avatar: function() {
                       var fbAuth= ref.getAuth();
@@ -218,66 +227,21 @@ console.log("NOT IOS: "+e);
       }
     }
   })
-        // setup an abstract state for the chat  directive
-    .state('tab', {
-        url: "/tab",
-        abstract: true,
-        cache: false,
-        templateUrl: "templates/chat/tabs.html",
-        resolve: {
-            // controller will not be loaded until $requireAuth resolves
-            // Auth refers to our $firebaseAuth wrapper in the example above
-            "currentAuth": ["Auth",
-                function (Auth) {
-                    // $requireAuth returns a promise so the resolve waits for it to complete
-                    // If the promise is rejected, it will throw a $stateChangeError (see above)
-                    return Auth.$requireAuth();
-      }]
+    .state('app.rooms', {
+    url: '/rooms',
 
-        }
-    })
-
-    // Each tab has its own nav history stack:
-
-    .state('tab.rooms', {
-        url: '/rooms',
-
-        views: {
-            'tab-rooms': {
-                templateUrl: 'templates/chat/tab-rooms.html',
-                controller: 'RoomsCtrl',
-                resolve: {
-
-            "roomLoad": function( $q, $timeout,$rootScope, Rooms, $ionicLoading ) {
-
-              var asynchData = $q.defer();
-                    $ionicLoading.show({
-                template: 'Loading...'
-            });
-              $timeout(function(){
-               asynchData.resolve({
-               roomData: function() {
-
-                   var courses = $rootScope.displayName.courses;
-
-              return Rooms.all(courses);
-            }
-          });
-                      $ionicLoading.hide();
-        },500);
-        return asynchData.promise;
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/rooms.html',
+          controller: 'RoomsCtrl',
       }
-
-                }
-            }
-        }
-    })
-
-    .state('tab.chat', {
+    }
+  })
+   .state('app.chat', {
         url: '/chat/:roomId',
         views: {
-            'tab-chat': {
-                templateUrl: 'templates/chat/tab-chat.html',
+            'menuContent': {
+                templateUrl: 'templates/chat.html',
                 controller: 'ChatCtrl'
             }
         }

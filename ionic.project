@@ -1,6 +1,6 @@
 {
   "name": "ionic-firebase",
-  "app_id": "28b8c15d",
+  "app_id": "44bb103b",
   "gulpStartupTasks": [
     "sass",
     "watch"

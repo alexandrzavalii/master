@@ -1,24 +1,15 @@
 <ion-view view-title="Rooms">
-            <ion-nav-bar class="bar-header bar-light">
-<ion-nav-buttons side="primary">
-      <button class="button ion-android-arrow-back" ng-click="goback()">
-      </button>
-    </ion-nav-buttons>
-
-    
-    </ion-nav-bar>
-    
     <ion-content>
-   
+
         <div class="card">
 
         <div class="item item-text-wrap item-icon-left" ng-repeat="room in rooms" type="item-text-wrap" ng-click="openChatRoom(room.id)">
    <i class="icon {{room.icon}}"><h2>{{room.name}}</h2></i>
-                
+
         </div>
       </div>
-        
-        
+
+
 
 
     </ion-content>

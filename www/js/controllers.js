@@ -71,6 +71,7 @@ angular.module('mychat.controllers', [])
 
     }
 
+
 })
 
 .controller('TimetableCtrl', function ($scope, $state, $ionicPopover) {
@@ -112,6 +113,7 @@ $scope.timeFilter = function(item){
 .controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Dash, dataLoad, $ionicPopover, $rootScope) {
 //dataload is resolve function for loading data before loading state
 dataLoad.avatar();
+
    $ionicPopover.fromTemplateUrl('templates/popoverStats.html', {
     scope: $scope,
   }).then(function(popover) {
@@ -206,8 +208,6 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
 .controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject, $ionicScrollDelegate, $timeout) {
     //console.log("Chat Controller initialized");
 
-
-
     $scope.IM = {
 
         textMessage: ""
@@ -235,25 +235,20 @@ var majorPie = new Chart(majorCredits).Pie(datas,{
         Chats.remove(chat);
     }
     $scope.goback = function () {
-     $state.go('tab.rooms');   
+     $state.go('app.rooms');
     }
 })
 
-.controller('RoomsCtrl', function ($scope, Chats, $state, roomLoad) {
 
-    //load rooms using resolve
-    $scope.rooms = roomLoad.roomData();
+.controller('RoomsCtrl', function ($scope, $state, dataLoad){
+   $scope.rooms=dataLoad.roomData();
 
     $scope.openChatRoom = function (roomId) {
-        $state.go('tab.chat', {
+        $state.go('app.chat', {
             roomId: roomId
         });
     }
-    $scope.goback = function(){
-        $state.go('app.dashboard');
-    }
 })
-
 .controller('CatalogCtrl', function ($scope, Catalog, $state, $ionicLoading, $firebaseObject) {
 
     var fbAuth= ref.getAuth();
@@ -394,7 +389,12 @@ $scope.showImages = function(index) {
         name: 'settings',
         url: '/app/settings',
         icon: 'icon ion-gear-b'
-    }
+    },
+        {
+            name: 'chat',
+            url: '/app/rooms',
+            icon: 'icon ion-chatbubble'
+        }
                  ]
 
   $scope.isItemActive = function(item) {
