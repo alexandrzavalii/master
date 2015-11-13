@@ -5,15 +5,13 @@ var ref = new Firebase(firebaseUrl);
 function onDeviceReady() {
     angular.bootstrap(document, ["mychat"]);
 }
-//console.log("binding device ready");
-// Registering onDeviceReady callback with deviceready event
 document.addEventListener("deviceready", onDeviceReady, false);
 
 // 'mychat.services' is found in services.js
 // 'mychat.controllers' is found in controllers.js
 var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mychat.controllers', 'mychat.services','angles','ngCordova'])
 
-.run(function ($ionicPlatform, $rootScope, $location, Auth, $ionicLoading, $ionicHistory, $timeout) {
+.run(function ($ionicPlatform, $rootScope, $location, Auth, $ionicLoading, $ionicHistory, $timeout, $cordovaStatusbar) {
     $ionicPlatform.ready(function () {
 
 
@@ -24,7 +22,8 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
         }
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
-            StatusBar.styleDefault();
+            StatusBar.style(1)
+
         }
         // To Resolve Bug
         ionic.Platform.fullScreen();
