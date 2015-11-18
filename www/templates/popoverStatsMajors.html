@@ -1,5 +1,39 @@
-      <ion-popover-view>
+<style>.popover { height:13em; }</style>
+<ion-popover-view>
         <ion-content class="padding">
+
+    <div ng-repeat="major in MajorDoneObject | filter:{ Major: 'COS' }">
+    <div class="row">
+              <div class="col">
+               <h4>Major: </h4>
+              </div>
+              <div class="col">
+                <h4>{{major.Major}} </h4>
+              </div>
+    </div>
+
+<div class="row">
+               <div class="col">
+               <h4>Done: </h4>
+              </div>
+              <div class="col">
+                <h4>{{major.Done.length}}/{{major.Required}}</h4>
+              </div>
+</div>
+
+<div class="row">
+                <div class="col">
+               <h4>Required:</h4>
+              </div>
+              <div class="col">
+                <h4>{{major.Required}} </h4>
+              </div>
+</div>
+
+
+
+</div>
+            </div>
 
           </ion-content>
       </ion-popover-view>

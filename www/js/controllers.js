@@ -114,17 +114,6 @@ $scope.timeFilter = function(item){
 //dataload is resolve function for loading data before loading state
 dataLoad.avatar();
 
-   $ionicPopover.fromTemplateUrl('templates/popoverStats.html', {
-    scope: $scope,
-  }).then(function(popover) {
-    $scope.popover = popover;
-  });
-
-   $ionicPopover.fromTemplateUrl('templates/popoverStatsMajors.html', {scope: $scope,}).then(function(popover) {
-
-    $scope.popoverMajor = popover;
-  });
-
 
 
  var user = $scope.displayName;
@@ -151,7 +140,7 @@ dataLoad.avatar();
     $scope.majors=user.major; //all majors of the user
 $scope.credits=Dash.credits(coursesTaken,catalog); //count for the credits of the courses taken
 var data = Dash.data($scope.credits); 
-console.log($scope.credits);
+console.log("Credits: " + $scope.credits);
 
 
 
@@ -165,44 +154,57 @@ var totalPie = new Chart(totalCredits).Pie(data,{
 });
 
 
+var MajorDoneObject= [];
 
           //discover major and count classes 
-          for(i=0;i<major.length;i++){
+          for(i=0;i<major.length;i++)
               for(j=0;j<user.major.length;j++)
-            if(user.major[j]==major[i].id) {
-                
+                  if(user.major[j]==major[i].id)
+                  {
+                        var majorDone=Dash.majorSelect(major[i].required,major[i].elective.courses,coursesTaken);
+                        var totalRequired=major[i].required.length+ parseInt(major[i].elective.number);
+                        var oneMajor = {Major: major[i].id, Done: majorDone, Required: totalRequired};
+                        MajorDoneObject.push(oneMajor);
+                        console.log("TOTAL: "+ oneMajor.Required + " DONE: " + oneMajor.Done + " MAJOR: " + oneMajor.Major );
+//create pie
+                        var datas= Dash.dataMajor(totalRequired,majorDone.length);
+                        var majorCredits = document.getElementById(user.major[i]).getContext("2d");
+                        var majorPie = new Chart(majorCredits).Pie(datas,{
+                                               animateScale: true,
+                                               showTooltips: false
+                        });
+                  }
+//popover overall
+  $ionicPopover.fromTemplateUrl('templates/popoverStats.html', {
+    scope: $scope,
+  }).then(function(popover) {
+    $scope.popoverO = popover;
+  });
 
-var majorDone=Dash.majorSelect(major[i].required,major[i].elective.courses,coursesTaken);
-var totalRequired=major[i].required.length+ parseInt(major[i].elective.number);
 
-console.log("TOTAL: "+ totalRequired + " DONE: " + majorDone+ " MAJOR: " +major[i].id);
-var datas= Dash.dataMajor(totalRequired,majorDone.length);
-             
-var majorCredits = document.getElementById(user.major[i]).getContext("2d");
-var majorPie = new Chart(majorCredits).Pie(datas,{
-    animateScale: true,
-       showTooltips: false
-});
+//popover for major
+  $ionicPopover.fromTemplateUrl('templates/popoverStatsMajors.html', {
+    scope: $scope
+  }).then(function(popover) {
+    $scope.popover = popover;
+  });
 
-                count=0;  
-            }
-          }
+
+  $scope.openPopoverMajor = function($event, major) {
+    console.log(major+" stats");
+      $scope.MajorDoneObject=MajorDoneObject;
+
+
+    $scope.major = {name: major};
+    $scope.popover.show($event);
+  };
 
      }, 500);
 
-    $scope.ChatRoom = function(){
-    $state.go('tab.rooms');
-    }
-      $scope.toggleLeft = function() {
-    $ionicSideMenuDelegate.toggleLeft();
-  };
+
  
-        $scope.gotoNav = function() {
-      $state.go('app.dashboard');  
-    };
-       $scope.gotoTimetable = function() {
-      $state.go('timetable');  
-    };
+
+
 })
 
 .controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject, $ionicScrollDelegate, $timeout) {
