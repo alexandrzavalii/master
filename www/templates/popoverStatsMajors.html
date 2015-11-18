@@ -2,13 +2,13 @@
 <ion-popover-view>
         <ion-content class="padding">
 
-    <div ng-repeat="major in MajorDoneObject | filter:{ Major: 'COS' }">
+    <div ng-repeat="selectedMajor in MajorDoneObject | filter:{ Major: major }">
     <div class="row">
               <div class="col">
                <h4>Major: </h4>
               </div>
               <div class="col">
-                <h4>{{major.Major}} </h4>
+                <h4>{{selectedMajor.Major}} </h4>
               </div>
     </div>
 
@@ -17,7 +17,7 @@
                <h4>Done: </h4>
               </div>
               <div class="col">
-                <h4>{{major.Done.length}}/{{major.Required}}</h4>
+                <h4>{{selectedMajor.Done.length}}/{{selectedMajor.Required}}</h4>
               </div>
 </div>
 
@@ -26,7 +26,7 @@
                <h4>Required:</h4>
               </div>
               <div class="col">
-                <h4>{{major.Required}} </h4>
+                <h4>{{selectedMajor.Required}} </h4>
               </div>
 </div>
 

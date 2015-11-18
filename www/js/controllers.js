@@ -165,6 +165,7 @@ var MajorDoneObject= [];
                         var totalRequired=major[i].required.length+ parseInt(major[i].elective.number);
                         var oneMajor = {Major: major[i].id, Done: majorDone, Required: totalRequired};
                         MajorDoneObject.push(oneMajor);
+                      console.table(MajorDoneObject);
                         console.log("TOTAL: "+ oneMajor.Required + " DONE: " + oneMajor.Done + " MAJOR: " + oneMajor.Major );
 //create pie
                         var datas= Dash.dataMajor(totalRequired,majorDone.length);
@@ -191,11 +192,11 @@ var MajorDoneObject= [];
 
 
   $scope.openPopoverMajor = function($event, major) {
-    console.log(major+" stats");
+    console.log(major);
       $scope.MajorDoneObject=MajorDoneObject;
 
 
-    $scope.major = {name: major};
+    $scope.major = major;
     $scope.popover.show($event);
   };
 
