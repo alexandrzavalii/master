@@ -11,10 +11,11 @@
                 <input id="password" type="password" ng-model="user.pwdForLogin" required>
             </label>
             <button ng-click="signIn(user)" class="button button-block button-positive activated"  ng-disabled="LoginForm.$invalid" >
-
                 Sign In
             </button>
+
         </form>
+
         <div class="list" style="text-align:center">
             <button ng-click="modal.show()" class="button button-small button-outline icon-left ion-person-add button-positive" >
                 Create New Account

@@ -55,9 +55,9 @@ angular.module('mychat.controllers', [])
                                     
                     // To Update AngularJS $scope either use $apply or $timeout
                     $scope.$apply(function () {
-                        $rootScope.displayName = val;
+                        $rootScope.user = val;
                     });
-                        console.log("EMAIL signin: " + $rootScope.displayName.email);
+                        console.log("EMAIL signin: " + $rootScope.user.email);
 
                 });
                 $ionicLoading.hide();
@@ -74,94 +74,48 @@ angular.module('mychat.controllers', [])
 
 })
 
-.controller('TimetableCtrl', function ($scope, $state, $ionicPopover) {
-        var userName = $scope.displayName;
-    
-
-    $scope.courses = userName.courses;
-    var daycss=['item-positive',  'item-calm','item-balanced','item-energized','item-royal'];
-    var length=$scope.courses.length;
-  
-    $scope.cssfunction = function(course)
-    {
-        return daycss[Math.round(Math.random() * daycss.length-1)];
-    }
-    
-$scope.timeFilter = function(item){ 
-    if((item.schedule[0]==$scope.date) || (item.schedule[1]==$scope.date)) return true;
-    return false;
-};
-      $ionicPopover.fromTemplateUrl('templates/popover.html', {
-    scope: $scope,
-  }).then(function(popover) {
-    $scope.popover = popover;
-  });
-    $scope.date = 'Monday';
-
-    $scope.week =[ 'Monday', 'Tuesday','Wednesday','Thursday','Friday'];
-    
-    $scope.weekday=function(item){
-     $scope.date=item;
-    }
-        $scope.filterday = function() {
-        return ($scope.wishid.indexOf(course.id) !== -1);
-    };
-    
-
-
-})
 .controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Dash, dataLoad, $ionicPopover, $rootScope) {
 //dataload is resolve function for loading data before loading state
 dataLoad.avatar();
 
-
-
- var user = $scope.displayName;
-    $scope.userName =user.displayName;
-    $scope.coursesTaken=user.coursesTaken;
-        var coursesTaken=user.coursesTaken;
-
-        var catalog=dataLoad.catalog();
-        var major=dataLoad.major();
-          var count=0;
+    var user = $scope.user;
+    var catalog=dataLoad.catalog();
+    var major=dataLoad.major();
 
     //toggle all course slide down menue
-         $scope.toggleGroup = function(group) {
-    if ($scope.isGroupShown(group)) {
-      $scope.shownGroup = null;
-    } else {
-      $scope.shownGroup = group;
-    }
-  };
+    $scope.toggleGroup = function(group) {
+                        if ($scope.isGroupShown(group)) {
+                                $scope.shownGroup = null;
+                                } else {
+                                        $scope.shownGroup = group;
+                                        }
+    };
+
   $scope.isGroupShown = function(group) {
     return $scope.shownGroup === group;
-  };
+        };
     //slide menue end
-    $scope.majors=user.major; //all majors of the user
-$scope.credits=Dash.credits(coursesTaken,catalog); //count for the credits of the courses taken
-var data = Dash.data($scope.credits); 
-console.log("Credits: " + $scope.credits);
 
 
-
+    $scope.credits=Dash.credits(user.coursesTaken,catalog); //count for the credits of the courses taken
+    var data = Dash.data($scope.credits);
+    console.log("Credits: " + $scope.credits);
 
       $timeout(function(){
 
-var totalCredits = document.getElementById("totalCredits").getContext("2d");
-var totalPie = new Chart(totalCredits).Pie(data,{
-    animateScale: true,
-    showTooltips: false
-});
+            var totalCredits = document.getElementById("totalCredits").getContext("2d");
+            var totalPie = new Chart(totalCredits).Pie(data,{
+                animateScale: true,
+                showTooltips: false
+            });
 
-
-var MajorDoneObject= [];
-
+        var MajorDoneObject= [];
           //discover major and count classes 
           for(i=0;i<major.length;i++)
               for(j=0;j<user.major.length;j++)
                   if(user.major[j]==major[i].id)
                   {
-                        var majorDone=Dash.majorSelect(major[i].required,major[i].elective.courses,coursesTaken);
+                        var majorDone=Dash.majorSelect(major[i].required,major[i].elective.courses,user.coursesTaken);
                         var totalRequired=major[i].required.length+ parseInt(major[i].elective.number);
                         var oneMajor = {Major: major[i].id, Done: majorDone, Required: totalRequired};
                         MajorDoneObject.push(oneMajor);
@@ -192,21 +146,49 @@ var MajorDoneObject= [];
 
 
   $scope.openPopoverMajor = function($event, major) {
-    console.log(major);
-      $scope.MajorDoneObject=MajorDoneObject;
-
-
-    $scope.major = major;
-    $scope.popover.show($event);
+        console.log(major);
+        $scope.MajorDoneObject=MajorDoneObject;
+        $scope.major = major;
+        $scope.popover.show($event);
   };
 
      }, 500);
 
+})
+.controller('TimetableCtrl', function ($scope, $state, $ionicPopover) {
 
- 
+    var daycss=['item-positive',  'item-calm','item-balanced','item-energized','item-royal'];
+    var length=$scope.user.courses.length;
+
+    $scope.cssfunction = function(course)
+    {
+        return daycss[Math.round(Math.random() * daycss.length-1)];
+    }
+
+$scope.timeFilter = function(item){
+    if((item.schedule[0]==$scope.date) || (item.schedule[1]==$scope.date)) return true;
+    return false;
+};
+      $ionicPopover.fromTemplateUrl('templates/popover.html', {
+    scope: $scope,
+  }).then(function(popover) {
+    $scope.popover = popover;
+  });
+    $scope.date = 'Monday';
+
+    $scope.week =[ 'Monday', 'Tuesday','Wednesday','Thursday','Friday'];
+
+    $scope.weekday=function(item){
+     $scope.date=item;
+    }
+        $scope.filterday = function() {
+        return ($scope.wishid.indexOf(course.id) !== -1);
+    };
+
 
 
 })
+
 
 .controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject, $ionicScrollDelegate, $timeout) {
     //console.log("Chat Controller initialized");
@@ -228,7 +210,7 @@ var MajorDoneObject= [];
 
     $scope.sendMessage = function (msg) {
         console.log(msg);
-        Chats.send($scope.displayName, msg);
+        Chats.send($scope.user, msg);
         $scope.IM.textMessage = "";
           $ionicScrollDelegate.scrollBottom();
     }
@@ -250,14 +232,14 @@ var MajorDoneObject= [];
 
     var fbAuth= ref.getAuth();
       if(fbAuth) {
-var userName = $scope.displayName;
-$scope.wishid=userName.wish;
-    $scope.catalog = Catalog.all();
-    var url=firebaseUrl+"/users/"+fbAuth.uid+"/wish";
-    var urlUser = new Firebase(url);
-    } else {
-        $state.go("login");
-    }
+                var userName = $scope.user;
+                $scope.wishid=userName.wish;
+                $scope.catalog = Catalog.all();
+                var url=firebaseUrl+"/users/"+fbAuth.uid+"/wish";
+                var urlUser = new Firebase(url);
+        } else {
+                    $state.go("login");
+                    }
 
 
 
@@ -268,7 +250,6 @@ $scope.clearSearch = function() { $scope.searchQuery = ''; }
 
 $scope.addToWish=function(course,liked){
      var exists= false;
-
     console.log(course.id);
       var index = userName.wish.indexOf(course.id);  
 
@@ -290,12 +271,12 @@ $scope.addToWish=function(course,liked){
 }
  
 $scope.wishdelete=function(course){
-                      var index = userName.wish.indexOf(course.id);  
-                         if (index > -1) {
+ var index = userName.wish.indexOf(course.id);
+ if (index > -1) {
      userName.wish.splice(index, 1); 
      urlUser.remove();
      urlUser.set(userName.wish );
-                                         }
+}
                 console.log(userName.wish);
 }
 
@@ -306,7 +287,7 @@ $scope.filterwish = function(course) {
     };
 
 })
-.controller('ProfileCtrl', function($scope, $ionicHistory, $cordovaCamera, $firebaseObject, $rootScope, $ionicModal) {
+.controller('ProfileCtrl', function($scope, $ionicHistory, $cordovaCamera, $firebaseObject, $rootScope, $ionicModal, $ionicPopover) {
 
     $ionicHistory.clearHistory();
 
@@ -341,26 +322,57 @@ var userReference = ref.child("profile/" + fbAuth.uid);
 
 
 $scope.showImages = function(index) {
- $scope.activeSlide = index;
- $scope.showModal('templates/image-popover.html');
+                     $scope.activeSlide = index;
+                     $scope.showModal('templates/image-popover.html');
  }
 
  $scope.showModal = function(templateUrl) {
- $ionicModal.fromTemplateUrl(templateUrl, {
- scope: $scope,
- animation: 'slide-in-up'
- }).then(function(modal) {
- $scope.modal = modal;
- $scope.modal.show();
- });
+     $ionicModal.fromTemplateUrl(templateUrl, {
+         scope: $scope,
+         animation: 'slide-in-up'
+     }).then(function(modal) {
+         $scope.modal = modal;
+         $scope.modal.show();
+     });
  }
 
  // Close the modal
  $scope.closeModal = function() {
- $scope.modal.hide();
- $scope.modal.remove()
+         $scope.modal.hide();
+         $scope.modal.remove()
  };
 
+
+      var template = '<ion-popover-view class="changeStatus"><ion-header-bar><input type="text" placeholder={{user.status}} ng-maxlength="40" ng-model="status"  required /> <button class="button icon ion-checkmark" ng-click="editStatus(status)"  ng-disabled="status.length<=0 || status==undefined"></button></ion-header-bar> </ion-popover-view>';
+
+  $scope.popover = $ionicPopover.fromTemplate(template, {
+    scope: $scope
+  });
+
+     $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
+      $scope.closePopover = function() {
+          alert("HIDE");
+    $scope.popover.hide();
+  };
+  //Cleanup the popover when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.popover.remove();
+  });
+
+    $scope.editalert=function(status){
+        alert(status.length);
+    }
+
+$scope.editStatus=function(status){
+        var fbAuth= ref.getAuth();
+      var url=firebaseUrl+"/users/"+fbAuth.uid+"/status";
+    var urlUser = new Firebase(url);
+    urlUser.set(status);
+    $scope.user.status=status;
+        $scope.popover.hide();
+}
 
 })
 .controller('LeftMenuCtrl', function($scope, $location) {

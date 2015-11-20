@@ -8247,3 +8247,8 @@ a.button {
 .slider {
   width: 100%;
   height: 100%; }
+
+.changeStatus {
+  height: 3em; }
+  .changeStatus button {
+    border: none; }

@@ -29,7 +29,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
         ionic.Platform.fullScreen();
 
         $rootScope.firebaseUrl = firebaseUrl;
-        $rootScope.displayName = null;
+        $rootScope.user = null;
 
         Auth.$onAuth(function (authData) {
             if (authData) {
@@ -46,15 +46,9 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
             $ionicLoading.show({
                 template: 'Logging Out...'
             });
-
-
             Auth.$unauth();
         }
-
-
-
         $rootScope.$on("$stateChangeError", function (event, toState, toParams, fromState, fromParams, error) {
-
             // We can catch the error thrown when the $requireAuth promise is rejected
             // and redirect the user back to the home page
             if (error === "AUTH_REQUIRED") {
@@ -63,39 +57,29 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
         });
 
         try {
-
-cordova.plugins.Keyboard.disableScroll(true);
-}catch(e) {
-console.log("NOT IOS: "+e);
-}
-
+            cordova.plugins.Keyboard.disableScroll(true);
+            }catch(e) {
+            console.log("NOT IOS: "+e);
+            }
     });
 })
 
 .config(function ($stateProvider, $urlRouterProvider) {
     console.log("setting config");
-    // Ionic uses AngularUI Router which uses the concept of states
-    // Learn more here: https://github.com/angular-ui/ui-router
-    // Set up the various states which the app can be in.
-    // Each state's controller can be found in controllers.js
     $stateProvider
 
-    // State to represent Login View
     .state('login', {
         url: "/login",
         templateUrl: "templates/login.html",
         controller: 'LoginCtrl',
-
         resolve: {
-            // controller will not be loaded until $waitForAuth resolves
             // Auth refers to our $firebaseAuth wrapper in the example above
             "currentAuth": ["Auth",
                 function (Auth) {
                     // $waitForAuth returns a promise so the resolve waits for it to complete
                     return Auth.$waitForAuth();
-        }]
-
-
+                                }
+                           ]
         }
     })
     
@@ -106,146 +90,128 @@ console.log("NOT IOS: "+e);
         controller: 'DashCtrl',
         cache: false,
             resolve: {
-            // controller will not be loaded until $requireAuth resolves
-            // Auth refers to our $firebaseAuth wrapper in the example above
             "currentAuth": ["Auth",
                 function (Auth) {
-
-                    // $requireAuth returns a promise so the resolve waits for it to complete
                     // If the promise is rejected, it will throw a $stateChangeError (see above)
                     return Auth.$requireAuth();
-      }],
-"dataLoad": function( $q, $timeout,$rootScope, Catalog, Major, $firebaseObject,Rooms ) {
-    var asynchData = $q.defer();
-        $timeout(function(){
-          asynchData.resolve({
-            userData: function() {
-              return $rootScope.displayName;
-            },
-            catalog: function( ) {
-              return Catalog.all();
-            },
-              major: function() {
+                                }],
+            "dataLoad": function( $q, $timeout,$rootScope, Catalog, Major, $firebaseObject,Rooms ) {
+                        var asynchData = $q.defer();
+                            $timeout(function(){
+                              asynchData.resolve({
+                                        userData: function() {
+                                                  return $rootScope.user;
+                                        },
+                                        catalog: function() {
+                                                 return Catalog.all();
+                                        },
+                                        major: function() {
+                                                return Major.all();
+                                        },
+                                        roomData: function() {
+                                                  var courses = $rootScope.user.courses;
+                                                  return Rooms.all(courses);
+                                        },
+                                        avatar: function() {
+                                                var fbAuth= ref.getAuth();
+                                                          if(fbAuth) {
+                                                        var userReference = ref.child("profile/" + fbAuth.uid);
+                                                          var syncObject= $firebaseObject(userReference.child("avatar"));
+                                                         $rootScope.avatar = syncObject;
+                                                              var avatar= syncObject;
 
-                  return Major.all();
-              },
-              roomData: function() {
-                var courses = $rootScope.displayName.courses;
-              return Rooms.all(courses);
+                                                             $rootScope.avatar.$loaded().then(function(notes) {
+                                                                 if (avatar.url==null){
+                                                        var userReference = ref.child("profile/");
+                                                          var syncObject= $firebaseObject(userReference.child("0").child("avatar"));
+                                                         $rootScope.avatar = syncObject;
 
-              },
-              avatar: function() {
-                      var fbAuth= ref.getAuth();
-          if(fbAuth) {
-        var userReference = ref.child("profile/" + fbAuth.uid);
-          var syncObject= $firebaseObject(userReference.child("avatar"));
-         $rootScope.avatar = syncObject;
-              var avatar= syncObject;
-
-             $rootScope.avatar.$loaded().then(function(notes) {
-                 if (avatar.url==null){
-        var userReference = ref.child("profile/");
-          var syncObject= $firebaseObject(userReference.child("0").child("avatar"));
-         $rootScope.avatar = syncObject;
-
-                                            }
-             })
-    } else {
-        $state.go("login");
-    }
-                  return
-              }
-
-          });
-        },500);
-
-        return asynchData.promise;
-      }
+                                                                                            }
+                                                             })
+                                                    } else {
+                                                        $state.go("login");
+                                                    }
+                                                                  return
+                                        }
+                                   });//end resolve
+                            },500);
+                            return asynchData.promise;
+                          }
             }
   })
 
   .state('app.dashboard', {
     url: '/dashboard',
-
     views: {
-      'menuContent': {
-        templateUrl: 'templates/dashboard.html'
-      }
-    }
+            'menuContent': {
+                templateUrl: 'templates/dashboard.html'
+                            }
+            }
   })
      .state('app.profile', {
-    url: '/profile',
-
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/profile.html',
-          controller: 'ProfileCtrl',
-                   }
-    }
+        url: '/profile',
+        views: {
+                'menuContent': {
+                    templateUrl: 'templates/profile.html',
+                    controller: 'ProfileCtrl',
+                            }
+            }
   })
     .state('app.catalog', {
          cache: false,
-    url: '/catalog',
-
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/catalog.html',
-          controller: 'CatalogCtrl'
-      
-      }
-    }
+        url: '/catalog',
+        views: {
+                'menuContent': {
+                                templateUrl: 'templates/catalog.html',
+                                controller: 'CatalogCtrl'
+                                }
+                }
   })
-        .state('app.wish', {
-    url: '/wish',
-
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/wish.html',
-          controller: 'CatalogCtrl'
-      
-      }
-    }
+    .state('app.wish', {
+        url: '/wish',
+        views: {
+                'menuContent': {
+                                templateUrl: 'templates/wish.html',
+                                controller: 'CatalogCtrl'
+                                }
+                }
   })
     .state('app.timetable', {
-    url: '/timetable',
-
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/timetable.html',
-       controller: 'TimetableCtrl'
-      }
-    }
+        url: '/timetable',
+        views: {
+                'menuContent': {
+                                templateUrl: 'templates/timetable.html',
+                                controller: 'TimetableCtrl'
+                                }
+            }
   })
-        .state('app.settings', {
-    url: '/settings',
-
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/settings.html',
-       controller: 'TimetableCtrl'
-      }
-    }
+    .state('app.settings', {
+        url: '/settings',
+        views: {
+            'menuContent': {
+                        templateUrl: 'templates/settings.html',
+                        controller: 'TimetableCtrl'
+                            }
+                }
   })
     .state('app.rooms', {
-    url: '/rooms',
-
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/rooms.html',
-          controller: 'RoomsCtrl',
-      }
-    }
+        url: '/rooms',
+        views: {
+            'menuContent': {
+                        templateUrl: 'templates/rooms.html',
+                        controller: 'RoomsCtrl',
+                            }
+                }
   })
    .state('app.chat', {
         url: '/:roomId',
         views: {
             'menuContent': {
-                templateUrl: 'templates/chat.html',
-                controller: 'ChatCtrl'
-            }
-        }
+                        templateUrl: 'templates/chat.html',
+                        controller: 'ChatCtrl'
+                            }
+                }
     })
-
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');

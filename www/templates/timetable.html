@@ -10,7 +10,7 @@
 
 
    <div class="card">
-  <div ng-repeat="course in courses | filter: timeFilter | orderBy:'time' " class="item item-text-wrap" ng-class="item-calm" >
+  <div ng-repeat="course in user.courses | filter: timeFilter | orderBy:'time' " class="item item-text-wrap" ng-class="item-calm" >
 {{course.id}} 
 
       <span class="pull-right">{{course.time}}</span>
