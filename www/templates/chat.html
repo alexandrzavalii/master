@@ -12,28 +12,35 @@
     </ion-nav-buttons>
     </ion-nav-bar>
     <ion-content>
-        <ion-list ng-show="roomName">
-            <ion-item ng-hide="chats" class="textCenter">
-                <i class="icon ion-loading-c"></i> Loading Chats
-            </ion-item>
-            <ion-item ng-if="chats.length == 0" class="textCenter">
-                <h4>No messages in this room. Send message to start.</h4>
-            </ion-item>
+        <div ng-repeat="message in chats" class="message-wrapper" >
 
+                  <div ng-if="user.displayName !== message.from">
 
-            <ion-item class="item item-avatar item-borderless message" ng-repeat="chat in chats | orderBy:'createdAt':false" type="item-text-wrap  ">
-                <img ng-src="data:image/jpg;base64,{{chat.avatar.url}}"/>
-                <h4>{{chat.from}} :</h4>
-                <span am-time-ago="chat.createdAt" class="item-note">
-                </span>
-                <p>{{chat.message}}</p>
-                <ion-option-button class="button-assertive" ng-click="remove(chat)">
-                    Delete
-                </ion-option-button>
-            </ion-item>
+                <img ng-click="viewProfile(message)" class="profile-pic left" ng-src="data:image/jpg;base64,{{message.avatar.url}}" onerror="onProfilePicError(this)" />
 
-        </ion-list>
+                      <div class="chat-bubble left">
+                         <div class="message-detail">
+                              <span ng-click="viewProfile(message)" class="bold">{{message.from}}</span>,
+                              <span am-time-ago="message.createdAt"></span>
+                          </div>
+                          <div class="message" ng-bind-html="message.message | nl2br" ></div>
 
+                      </div>
+                  </div>
+
+                  <div ng-if="user.displayName === message.from">
+                       <img ng-click="viewProfile(message)" class="profile-pic right" ng-src="data:image/jpg;base64,{{avatar.url}}" onerror="onProfilePicError(this)" />
+                      <div class="chat-bubble right">
+                           <div class="message-detail">
+                              <span ng-click="viewProfile(message)"  class="bold">{{user.displayName}}</span>,
+                              <span am-time-ago="message.createdAt"></span>
+                          </div>
+                          <div class="message" on-hold="showConfirmRemove(message)" ng-bind-html="message.message | nl2br" ></div>
+                      </div>
+                  </div>
+                  <div class="cf"></div>
+
+              </div>
 
     </ion-content>
 

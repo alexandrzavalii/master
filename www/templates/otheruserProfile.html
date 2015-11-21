@@ -1,0 +1,15 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header ">
+        <h1 class="title">{{otheruser}}</h1>
+        <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+    </ion-header-bar>
+    <ion-content class="padding">
+            <ion-item class="item-thumbnail-left item-text-wrap">
+          <img ng-src="data:image/jpg;base64,{{avatar.url}}" alt="Poster" class="customized-image" ng-click="showImages($index)"  >
+            <a ng-click="openPopover($event)">
+          <h2>{{user.displayName}}</h2>
+      <p>{{user.status}}</p>
+            </a>
+        </ion-item>
+    </ion-content>
+</ion-modal-view>

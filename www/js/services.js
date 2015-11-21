@@ -107,12 +107,12 @@ angular.module('mychat.services', ['firebase'])
            $timeout(function(){
             profiles.$loaded().then(function(notes) {
                 for (var i = 0; i < chats.length; i++)
-                    for (var j = 0; j < profiles.length; j++)
-                        if(chats[i].from==profiles[j].name){
-                                  chats[i].avatar=profiles[j].avatar;
+                    for (var j = 0; j < profiles.length; j++){
+                        if(chats[i].from==profiles[j].$id){
+                        chats[i].avatar=profiles[j].avatar;
                         }else chats[i].avatar=profiles[0].avatar;
 
-
+                    }
                 })
 
             })

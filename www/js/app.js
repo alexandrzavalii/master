@@ -115,7 +115,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
                                         avatar: function() {
                                                 var fbAuth= ref.getAuth();
                                                           if(fbAuth) {
-                                                        var userReference = ref.child("profile/" + fbAuth.uid);
+                                                        var userReference = ref.child("profile/" + $rootScope.user.displayName);
                                                           var syncObject= $firebaseObject(userReference.child("avatar"));
                                                          $rootScope.avatar = syncObject;
                                                               var avatar= syncObject;
@@ -212,6 +212,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
                             }
                 }
     })
+
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');

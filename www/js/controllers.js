@@ -76,6 +76,7 @@ angular.module('mychat.controllers', [])
 
 .controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Dash, dataLoad, $ionicPopover, $rootScope) {
 //dataload is resolve function for loading data before loading state
+
 dataLoad.avatar();
 
     var user = $scope.user;
@@ -190,8 +191,14 @@ $scope.timeFilter = function(item){
 })
 
 
-.controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject, $ionicScrollDelegate, $timeout) {
+.controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject, $ionicScrollDelegate, $timeout, $ionicPopup, $ionicModal) {
     //console.log("Chat Controller initialized");
+    $ionicModal.fromTemplateUrl('templates/otheruserProfile.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modal = modal;
+    });
+
     $scope.IM = {
 
         textMessage: ""
@@ -215,12 +222,33 @@ $scope.timeFilter = function(item){
           $ionicScrollDelegate.scrollBottom();
     }
 
-    $scope.remove = function (chat) {
-        Chats.remove(chat);
-    }
+
     $scope.goback = function () {
      $state.go('app.rooms');
     }
+
+     $scope.showConfirmRemove = function(message) {
+   var confirmPopup = $ionicPopup.confirm({
+     title: '<i class="icon ion-alert"></i> ',
+     template: 'Are you sure you want to delete this message?'
+   });
+    confirmPopup.then(function(res) {
+     if(res) {
+       Chats.remove(message);
+     } else {
+       console.log('You are not sure');
+     }
+   });
+     }
+
+     $scope.viewProfile = function(msg) {
+      if (msg.from === $scope.user.displayName) {
+                    $state.go('app.profile');
+      } else {
+          $scope.otheruser=msg.from
+       $scope.modal.show();
+      }
+    };
 })
 
 
@@ -307,7 +335,7 @@ $scope.filterwish = function(course) {
         };
         $cordovaCamera.getPicture(options).then(function(imageData) {
             var fbAuth= ref.getAuth();
-var userReference = ref.child("profile/" + fbAuth.uid);
+var userReference = ref.child("profile/" + $rootScope.user.displayName);
           var syncObject= $firebaseObject(userReference.child("avatar"));
          $rootScope.avatar = syncObject;
         syncObject.url=imageData;
@@ -367,7 +395,7 @@ $scope.showImages = function(index) {
 
 $scope.editStatus=function(status){
         var fbAuth= ref.getAuth();
-      var url=firebaseUrl+"/users/"+fbAuth.uid+"/status";
+      var url=firebaseUrl+"/users/"+$rootScope.user.displayName+"/status";
     var urlUser = new Firebase(url);
     urlUser.set(status);
     $scope.user.status=status;
@@ -375,6 +403,7 @@ $scope.editStatus=function(status){
 }
 
 })
+
 .controller('LeftMenuCtrl', function($scope, $location) {
 
     $scope.items=[
@@ -409,3 +438,11 @@ $scope.editStatus=function(status){
     return $location.path().indexOf(item.url) > -1;
 }
 })
+.filter('nl2br', ['$filter',
+  function($filter) {
+    return function(data) {
+      if (!data) return data;
+      return data.replace(/\n\r?/g, '<br />');
+    };
+  }
+])
