@@ -31,6 +31,8 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
         $rootScope.firebaseUrl = firebaseUrl;
         $rootScope.user = null;
 
+
+
         Auth.$onAuth(function (authData) {
             if (authData) {
                 console.log("Logged in as:", authData.uid);
@@ -112,27 +114,44 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
                                                   var courses = $rootScope.user.courses;
                                                   return Rooms.all(courses);
                                         },
-                                        avatar: function() {
-                                                var fbAuth= ref.getAuth();
-                                                          if(fbAuth) {
-                                                        var userReference = ref.child("profile/" + $rootScope.user.displayName);
-                                                          var syncObject= $firebaseObject(userReference.child("avatar"));
-                                                         $rootScope.avatar = syncObject;
-                                                              var avatar= syncObject;
+                                        imgZoom: function (){
 
-                                                             $rootScope.avatar.$loaded().then(function(notes) {
+                                            },
+                                        userProfile: function(){
+                                                var fbAuth= ref.getAuth();
+                                            $rootScope.userProfile={};
+                                                          if(fbAuth) {
+                                                                  //set default userProfile
+                                                                        var profiles = $firebaseObject(ref.child('profile'));
+                                                                      profiles.$loaded().then(function(){
+
+                                                                          $rootScope.defaultUser= profiles[0];
+                                                                      })
+
+
+                                                        var userReference = ref.child("profile/" + $rootScope.user.displayName);
+                                                         var syncObjectAvatar= $firebaseObject(userReference.child("avatar"));
+                                                        var syncObjectStatus= $firebaseObject(userReference.child("status"));
+                                                         $rootScope.userProfile.avatar = syncObjectAvatar;
+                                                           $rootScope.userProfile.status = syncObjectStatus;
+                                                                var avatar= syncObjectAvatar;
+                                               $rootScope.userProfile.avatar.$loaded().then(function(notes) {
                                                                  if (avatar.url==null){
                                                         var userReference = ref.child("profile/");
                                                           var syncObject= $firebaseObject(userReference.child("0").child("avatar"));
-                                                         $rootScope.avatar = syncObject;
+                                                         $rootScope.userProfile.avatar = syncObject;
 
                                                                                             }
                                                              })
+
+
                                                     } else {
                                                         $state.go("login");
                                                     }
                                                                   return
+
                                         }
+
                                    });//end resolve
                             },500);
                             return asynchData.promise;

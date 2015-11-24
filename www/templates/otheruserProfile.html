@@ -1,15 +1,20 @@
 <ion-modal-view>
     <ion-header-bar class="bar bar-header ">
-        <h1 class="title">{{otheruser}}</h1>
+        <h1 class="title">{{otheruser.name != null ? 'user' : 'not found'}}</h1>
         <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
     </ion-header-bar>
     <ion-content class="padding">
             <ion-item class="item-thumbnail-left item-text-wrap">
-          <img ng-src="data:image/jpg;base64,{{avatar.url}}" alt="Poster" class="customized-image" ng-click="showImages($index)"  >
+          <img ng-src="data:image/jpg;base64,{{otheruser.avatar.url != null ?  otheruser.avatar.url : defaultUser.avatar.url }}" alt="Poster" class="customized-image" ng-click="showImage($event)"  >
             <a ng-click="openPopover($event)">
-          <h2>{{user.displayName}}</h2>
-      <p>{{user.status}}</p>
+          <h2>{{otheruser.name}}</h2>
+      <p>{{otheruser.status}}</p>
             </a>
+        </ion-item>
+    <ion-item class=" item-text-wrap">
+<p>Date of Birth: {{otheruser.birth}}</p>
+<p>Nationality: {{otheruser.nation}}</p>
+<p>Room Nr: {{otheruser.roomNr}}</p>
         </ion-item>
     </ion-content>
 </ion-modal-view>

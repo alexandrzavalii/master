@@ -103,14 +103,13 @@ angular.module('mychat.services', ['firebase'])
 
     return {
         all: function () {
-
            $timeout(function(){
-            profiles.$loaded().then(function(notes) {
+            profiles.$loaded().then(function() {
                 for (var i = 0; i < chats.length; i++)
                     for (var j = 0; j < profiles.length; j++){
                         if(chats[i].from==profiles[j].$id){
                         chats[i].avatar=profiles[j].avatar;
-                        }else chats[i].avatar=profiles[0].avatar;
+                        }
 
                     }
                 })
@@ -119,6 +118,24 @@ angular.module('mychat.services', ['firebase'])
             return chats;
         },
 
+        findUser: function(username){
+            var otheruser={};
+            profiles.$loaded().then(function(){
+                     for (var j = 0; j < profiles.length; j++){
+                         if(username===profiles[j].$id){
+                             otheruser.name=username;
+                             otheruser.avatar=profiles[j].avatar;
+                             otheruser.status=profiles[j].status;
+                             otheruser.birth=profiles[j].birth;
+                             otheruser.roomNr=profiles[j].roomNr;
+                             otheruser.nation=profiles[j].nation;
+                         }
+                     }
+            })
+            if (otheruser.name!='') return otheruser;
+            else return false;
+
+        },
         remove: function (chat) {
             chats.$remove(chat).then(function (ref) {
                 ref.key() === chat.$id; // true item has been removed
@@ -160,7 +177,7 @@ angular.module('mychat.services', ['firebase'])
                 var chatMessage = {
                     from: from.displayName,
                     message: message,
-                    avatar: $rootScope.avatar,
+                    avatar: $rootScope.userProfile.avatar,
                     createdAt: Firebase.ServerValue.TIMESTAMP
                 };
                 chats.$add(chatMessage).then(function (data) {
@@ -178,7 +195,7 @@ angular.module('mychat.services', ['firebase'])
     return {
         all: function (courses) {
             var selectRooms=[];
-                        rooms.$loaded().then(function(notes) {
+                        rooms.$loaded().then(function() {
                 for(i=0;i<courses.length;i++)
             for(j=0; j<rooms.length;j++)
                 if( courses[i].id== rooms[j].name){

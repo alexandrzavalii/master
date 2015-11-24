@@ -74,15 +74,13 @@ angular.module('mychat.controllers', [])
 
 })
 
-.controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Dash, dataLoad, $ionicPopover, $rootScope) {
+.controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Dash, dataLoad, $ionicPopover, $rootScope, $ionicModal) {
 //dataload is resolve function for loading data before loading state
 
-dataLoad.avatar();
-
+dataLoad.userProfile();
     var user = $scope.user;
     var catalog=dataLoad.catalog();
     var major=dataLoad.major();
-
     //toggle all course slide down menue
     $scope.toggleGroup = function(group) {
                         if ($scope.isGroupShown(group)) {
@@ -155,6 +153,22 @@ dataLoad.avatar();
 
      }, 500);
 
+    $rootScope.showImage = function(image) {
+            $scope.bigSrc=image.currentTarget;
+            console.log(image.currentTarget);
+         $ionicModal.fromTemplateUrl('templates/image-popover.html', {
+         scope: $scope,
+         animation: 'slide-in-up'
+     }).then(function(modal) {
+         $scope.modal = modal;
+         $scope.modal.show();
+     });
+ }
+ $rootScope.closeModal = function() {
+         $scope.modal.hide();
+ };
+
+
 })
 .controller('TimetableCtrl', function ($scope, $state, $ionicPopover) {
 
@@ -191,8 +205,10 @@ $scope.timeFilter = function(item){
 })
 
 
-.controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject, $ionicScrollDelegate, $timeout, $ionicPopup, $ionicModal) {
+.controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject, $firebaseArray, $ionicScrollDelegate, $timeout, $ionicPopup, $ionicModal, $rootScope) {
     //console.log("Chat Controller initialized");
+
+
     $ionicModal.fromTemplateUrl('templates/otheruserProfile.html', {
         scope: $scope
     }).then(function (modal) {
@@ -200,16 +216,18 @@ $scope.timeFilter = function(item){
     });
 
     $scope.IM = {
-
         textMessage: ""
     };
 
     Chats.selectRoom($state.params.roomId);
     var roomName = Chats.getSelectedRoomName();
+
     // Fetching Chat Records only if a Room is Selected
     if (roomName) {
         $scope.roomName = " - " + roomName;
         $scope.chats = Chats.all();
+        //default user
+
         $timeout(function(){
            $ionicScrollDelegate.scrollBottom();
         })
@@ -245,7 +263,8 @@ $scope.timeFilter = function(item){
       if (msg.from === $scope.user.displayName) {
                     $state.go('app.profile');
       } else {
-          $scope.otheruser=msg.from
+
+          $scope.otheruser=Chats.findUser(msg.from);
        $scope.modal.show();
       }
     };
@@ -337,7 +356,7 @@ $scope.filterwish = function(course) {
             var fbAuth= ref.getAuth();
 var userReference = ref.child("profile/" + $rootScope.user.displayName);
           var syncObject= $firebaseObject(userReference.child("avatar"));
-         $rootScope.avatar = syncObject;
+         $rootScope.userProfile.avatar = syncObject;
         syncObject.url=imageData;
          syncObject.$save().then(function(){
            alert("Image has been uploaded");
@@ -349,29 +368,15 @@ var userReference = ref.child("profile/" + $rootScope.user.displayName);
 
 
 
-$scope.showImages = function(index) {
-                     $scope.activeSlide = index;
-                     $scope.showModal('templates/image-popover.html');
- }
 
- $scope.showModal = function(templateUrl) {
-     $ionicModal.fromTemplateUrl(templateUrl, {
-         scope: $scope,
-         animation: 'slide-in-up'
-     }).then(function(modal) {
-         $scope.modal = modal;
-         $scope.modal.show();
-     });
- }
+
+
 
  // Close the modal
- $scope.closeModal = function() {
-         $scope.modal.hide();
-         $scope.modal.remove()
- };
 
 
-      var template = '<ion-popover-view class="changeStatus"><ion-header-bar><input type="text" placeholder={{user.status}} ng-maxlength="40" ng-model="status"  required /> <button class="button icon ion-checkmark" ng-click="editStatus(status)"  ng-disabled="status.length<=0 || status==undefined"></button></ion-header-bar> </ion-popover-view>';
+
+      var template = '<ion-popover-view class="changeStatus"><ion-header-bar><input type="text" placeholder={{userProfile.status.$value}} ng-maxlength="40" ng-model="status"  required /> <button class="button icon ion-checkmark" ng-click="editStatus(status)"  ng-disabled="status.length<=0 || status==undefined"></button></ion-header-bar> </ion-popover-view>';
 
   $scope.popover = $ionicPopover.fromTemplate(template, {
     scope: $scope
@@ -380,25 +385,14 @@ $scope.showImages = function(index) {
      $scope.openPopover = function($event) {
     $scope.popover.show($event);
   };
-      $scope.closePopover = function() {
-          alert("HIDE");
-    $scope.popover.hide();
-  };
-  //Cleanup the popover when we're done with it!
-  $scope.$on('$destroy', function() {
-    $scope.popover.remove();
-  });
 
-    $scope.editalert=function(status){
-        alert(status.length);
-    }
 
 $scope.editStatus=function(status){
         var fbAuth= ref.getAuth();
-      var url=firebaseUrl+"/users/"+$rootScope.user.displayName+"/status";
+      var url=firebaseUrl+"/profile/"+$rootScope.user.displayName+"/status";
     var urlUser = new Firebase(url);
     urlUser.set(status);
-    $scope.user.status=status;
+    $scope.userProfile.status.$value=status;
         $scope.popover.hide();
 }
 

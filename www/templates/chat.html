@@ -16,7 +16,7 @@
 
                   <div ng-if="user.displayName !== message.from">
 
-                <img ng-click="viewProfile(message)" class="profile-pic left" ng-src="data:image/jpg;base64,{{message.avatar.url}}" onerror="onProfilePicError(this)" />
+                <img ng-click="showImage($event)" class="profile-pic left" ng-src="data:image/jpg;base64,{{message.avatar.url != null ?  message.avatar.url : defaultUser.avatar.url }}" />
 
                       <div class="chat-bubble left">
                          <div class="message-detail">
@@ -29,7 +29,7 @@
                   </div>
 
                   <div ng-if="user.displayName === message.from">
-                       <img ng-click="viewProfile(message)" class="profile-pic right" ng-src="data:image/jpg;base64,{{avatar.url}}" onerror="onProfilePicError(this)" />
+                       <img ng-click="showImage($event)" class="profile-pic right" ng-src="data:image/jpg;base64,{{userProfile.avatar.url}}" onerror="onProfilePicError(this)" />
                       <div class="chat-bubble right">
                            <div class="message-detail">
                               <span ng-click="viewProfile(message)"  class="bold">{{user.displayName}}</span>,
