@@ -226,18 +226,21 @@ $scope.timeFilter = function(item){
     if (roomName) {
         $scope.roomName = " - " + roomName;
         $scope.chats = Chats.all();
-        //default user
 
-        $timeout(function(){
-           $ionicScrollDelegate.scrollBottom();
-        })
+
+
     }
 
+    $scope.$watch(
+                    "chats.length",
+                    function handleFooChange( newValue, oldValue ) {
+                        $ionicScrollDelegate.scrollBottom();
+                    })
+
     $scope.sendMessage = function (msg) {
-        console.log(msg);
         Chats.send($scope.user, msg);
         $scope.IM.textMessage = "";
-          $ionicScrollDelegate.scrollBottom();
+
     }
 
 
@@ -253,6 +256,7 @@ $scope.timeFilter = function(item){
     confirmPopup.then(function(res) {
      if(res) {
        Chats.remove(message);
+
      } else {
        console.log('You are not sure');
      }
@@ -263,7 +267,6 @@ $scope.timeFilter = function(item){
       if (msg.from === $scope.user.displayName) {
                     $state.go('app.profile');
       } else {
-
           $scope.otheruser=Chats.findUser(msg.from);
        $scope.modal.show();
       }
@@ -376,7 +379,7 @@ var userReference = ref.child("profile/" + $rootScope.user.displayName);
 
 
 
-      var template = '<ion-popover-view class="changeStatus"><ion-header-bar><input type="text" placeholder={{userProfile.status.$value}} ng-maxlength="40" ng-model="status"  required /> <button class="button icon ion-checkmark" ng-click="editStatus(status)"  ng-disabled="status.length<=0 || status==undefined"></button></ion-header-bar> </ion-popover-view>';
+      var template = '<ion-popover-view class="changeStatus"><ion-header-bar><input type="text" placeholder={{userProfile.status}} ng-maxlength="40" ng-model="status"  required /> <button class="button icon ion-checkmark" ng-click="editStatus(status)"  ng-disabled="status.length<=0 || status==undefined"></button></ion-header-bar> </ion-popover-view>';
 
   $scope.popover = $ionicPopover.fromTemplate(template, {
     scope: $scope
@@ -392,7 +395,7 @@ $scope.editStatus=function(status){
       var url=firebaseUrl+"/profile/"+$rootScope.user.displayName+"/status";
     var urlUser = new Firebase(url);
     urlUser.set(status);
-    $scope.userProfile.status.$value=status;
+    $scope.userProfile.status=status;
         $scope.popover.hide();
 }
 

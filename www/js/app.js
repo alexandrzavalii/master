@@ -131,18 +131,11 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
 
                                                         var userReference = ref.child("profile/" + $rootScope.user.displayName);
                                                          var syncObjectAvatar= $firebaseObject(userReference.child("avatar"));
-                                                        var syncObjectStatus= $firebaseObject(userReference.child("status"));
-                                                         $rootScope.userProfile.avatar = syncObjectAvatar;
-                                                           $rootScope.userProfile.status = syncObjectStatus;
-                                                                var avatar= syncObjectAvatar;
-                                               $rootScope.userProfile.avatar.$loaded().then(function(notes) {
-                                                                 if (avatar.url==null){
-                                                        var userReference = ref.child("profile/");
-                                                          var syncObject= $firebaseObject(userReference.child("0").child("avatar"));
-                                                         $rootScope.userProfile.avatar = syncObject;
+                                                        var syncObjectStatus= $firebaseObject(userReference);
+                                                         $rootScope.userProfile = syncObjectStatus;
 
-                                                                                            }
-                                                             })
+
+
 
 
                                                     } else {

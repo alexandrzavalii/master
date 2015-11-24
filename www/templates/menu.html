@@ -20,7 +20,7 @@
         <ion-item menu-close href="#/app/profile" class="item-text-wrap item-avatar">
 <img ng-src="data:image/jpg;base64,{{userProfile.avatar.url}}"/>
       <h2>{{user.displayName}}</h2>
-        <p>{{userProfile.status.$value}}</p>
+        <p>{{userProfile.status}}</p>
 
         </ion-item>
           <ion-item menu-close class="item-icon-left " type="item-text-wrap" nav-clear ng-repeat="item in items" href="#{{item.url}}" ng-class="{'item-positive': isItemActive(item)}">
