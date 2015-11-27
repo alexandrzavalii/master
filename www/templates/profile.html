@@ -6,15 +6,18 @@
     <ion-content>
         <ion-item class="item-thumbnail-left item-text-wrap">
           <img ng-src="data:image/jpg;base64,{{userProfile.avatar.url}}" alt="Poster" class="customized-image" id="avatar" ng-click="showImage($event)"  >
-            <a ng-click="openPopover($event)">
+
           <h2>{{user.displayName}}</h2>
-      <p>{{userProfile.status}}</p>
-            </a>
+      <p id="status" ng-click="openPopover($event)">{{userProfile.status}}</p>
+
         </ion-item>
     <ion-item class=" item-text-wrap">
-<p>Date of Birth: {{userProfile.birth}}</p>
-<p>Nationality: {{userProfile.nation}}</p>
-<p>Room Nr: {{userProfile.roomNr}}</p>
+<p >Date of Birth: <a id="birth"  ng-click="openPopover($event)">{{userProfile.birth}} </a></p>
+<p>Nationality: <a id="nation" ng-click="openPopover($event)" > {{userProfile.nation}}</a></p>
+<p>Room Nr: <a id="roomNr" ng-click="openPopover($event)" > {{userProfile.roomNr}}</a></p>
+<div ng-repeat="info in user.settings">
+        <p ng-if="info.$value==true">{{info.$id}}</p>
+        </div>
         </ion-item>
     </ion-content>
 </ion-view>

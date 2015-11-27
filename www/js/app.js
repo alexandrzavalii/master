@@ -202,7 +202,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
         views: {
             'menuContent': {
                         templateUrl: 'templates/settings.html',
-                        controller: 'TimetableCtrl'
+                        controller: 'SettingsCtrl'
                             }
                 }
   })

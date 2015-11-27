@@ -181,6 +181,7 @@ angular.module('mychat.services', ['firebase'])
                     createdAt: Firebase.ServerValue.TIMESTAMP
                 };
                 chats.$add(chatMessage).then(function (data) {
+
                     console.log("message added");
                 });
             }
@@ -195,7 +196,7 @@ angular.module('mychat.services', ['firebase'])
     return {
         all: function (courses) {
             var selectRooms=[];
-                        rooms.$loaded().then(function() {
+            rooms.$loaded().then(function() {
                 for(i=0;i<courses.length;i++)
             for(j=0; j<rooms.length;j++)
                 if( courses[i].id== rooms[j].name){

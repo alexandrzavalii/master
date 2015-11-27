@@ -76,7 +76,7 @@ angular.module('mychat.controllers', [])
 
 .controller('DashCtrl', function ($scope, $state,$timeout, $ionicSideMenuDelegate,Dash, dataLoad, $ionicPopover, $rootScope, $ionicModal) {
 //dataload is resolve function for loading data before loading state
-
+$scope.barClass=true; //class change
 dataLoad.userProfile();
     var user = $scope.user;
     var catalog=dataLoad.catalog();
@@ -155,7 +155,6 @@ dataLoad.userProfile();
 
     $rootScope.showImage = function(image) {
             $scope.bigSrc=image.currentTarget;
-            console.log(image.currentTarget);
          $ionicModal.fromTemplateUrl('templates/image-popover.html', {
          scope: $scope,
          animation: 'slide-in-up'
@@ -205,8 +204,8 @@ $scope.timeFilter = function(item){
 })
 
 
-.controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject, $firebaseArray, $ionicScrollDelegate, $timeout, $ionicPopup, $ionicModal, $rootScope) {
-    //console.log("Chat Controller initialized");
+.controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject, $firebaseArray, $ionicScrollDelegate, $timeout, $ionicPopup, $ionicModal) {
+
 
 
     $ionicModal.fromTemplateUrl('templates/otheruserProfile.html', {
@@ -231,9 +230,7 @@ $scope.timeFilter = function(item){
 
     }
 
-    $scope.$watch(
-                    "chats.length",
-                    function handleFooChange( newValue, oldValue ) {
+    $scope.$watch("chats.length",function handleFooChange( newValue, oldValue ) {
                         $ionicScrollDelegate.scrollBottom();
                     })
 
@@ -276,6 +273,7 @@ $scope.timeFilter = function(item){
 
 .controller('RoomsCtrl', function ($scope, $state, dataLoad){
    $scope.rooms=dataLoad.roomData();
+
 
 })
 .controller('CatalogCtrl', function ($scope, Catalog, $state, $ionicLoading, $firebaseObject) {
@@ -362,41 +360,75 @@ var userReference = ref.child("profile/" + $rootScope.user.displayName);
          $rootScope.userProfile.avatar = syncObject;
         syncObject.url=imageData;
          syncObject.$save().then(function(){
-           alert("Image has been uploaded");
+        console.log("Image uploaded");
          });
                 }, function(error) {
             alert.error(error);
         });
     }
 
-
-
-
-
-
-
- // Close the modal
-
-
-
-      var template = '<ion-popover-view class="changeStatus"><ion-header-bar><input type="text" placeholder={{userProfile.status}} ng-maxlength="40" ng-model="status"  required /> <button class="button icon ion-checkmark" ng-click="editStatus(status)"  ng-disabled="status.length<=0 || status==undefined"></button></ion-header-bar> </ion-popover-view>';
+      var template = '<ion-popover-view class="changeStatus"><ion-header-bar><input type="text" placeholder={{innerHtml}} ng-maxlength="40" ng-model="status"  required /> <button class="button icon ion-checkmark" ng-click="editStatus(status,tag); status=null"  ng-disabled="status.length<=0 || status==undefined"></button></ion-header-bar> </ion-popover-view>';
 
   $scope.popover = $ionicPopover.fromTemplate(template, {
     scope: $scope
   });
 
-     $scope.openPopover = function($event) {
+     $scope.openPopover = function($event,$index) {
+         $scope.innerHtml=$event.currentTarget.innerHTML;
+         $scope.tag=$event.currentTarget.id;
+
     $scope.popover.show($event);
   };
 
 
-$scope.editStatus=function(status){
+$scope.editStatus=function(status,tag){
         var fbAuth= ref.getAuth();
-      var url=firebaseUrl+"/profile/"+$rootScope.user.displayName+"/status";
+      var url=firebaseUrl+"/profile/"+$rootScope.user.displayName+"/"+tag;
     var urlUser = new Firebase(url);
     urlUser.set(status);
     $scope.userProfile.status=status;
         $scope.popover.hide();
+}
+
+})
+.controller('SettingsCtrl', function($scope, $rootScope, $firebaseArray){
+
+   var fbAuth= ref.getAuth();
+      if(fbAuth) {
+
+        var userReference = ref.child("users/" + fbAuth.uid+"/settings");
+          var settingsArray = $firebaseArray(userReference);
+         $rootScope.user.settings = settingsArray;
+          //to check settings Profile
+            var check=false;
+          settingsArray.$loaded(function(){
+               for(var i=0; i<settingsArray.length; i++)
+              if(settingsArray[i].$value==true) check=true;
+               $scope.profile=check;
+          })
+
+
+
+
+
+
+        } else {
+                    $state.go("login");
+                    }
+
+
+   $scope.changeSetting=function(setting){
+     var changedSetting={};
+       changedSetting[setting.$id]=setting.$value;
+       userReference.update(changedSetting);
+   }
+
+$scope.profileOff=function(profile){
+    for(var i=0; i<settingsArray.length; i++){
+             var changedSetting={};
+       changedSetting[settingsArray[i].$id]=profile;
+    userReference.update(changedSetting);
+    }
 }
 
 })

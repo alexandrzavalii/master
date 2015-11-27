@@ -2,23 +2,28 @@
     <ion-content>
 <ion-list class="list-borderless ">
 
-  <li class="item item-toggle">
-     HTML5
-     <label class="toggle toggle-assertive">
-       <input type="checkbox">
-       <div class="track">
-         <div class="handle"></div>
-       </div>
-     </label>
-  </li>
-<div class="item range">
-  <i class="icon ion-volume-low"></i>
-  <input type="range" name="volume">
-  <i class="icon ion-volume-high"></i>
-</div>
-  <label class="item item-input item-select">
+    <ul class="list">
+
+<div class="item item-divider">
+    Profile Privacy
+  </div>
+        <ion-toggle  ng-model="profile" ng-checked="profile" ng-click="profileOff(profile)">
+          Show Profile
+        </ion-toggle>
+        <div ng-if="profile">
+
+             <ion-checkbox ng-repeat="setting in user.settings" ng-model="setting.$value" ng-checked="setting.$value"
+                           ng-click="changeSetting(setting)">
+          {{ setting.$id}}
+        </ion-checkbox>
+        </div>
+
+        <div class="item item-divider">
+    Design
+  </div>
+          <label class="item item-input item-select">
     <div class="input-label">
-      Lightsaber
+      bar color
     </div>
     <select>
       <option>Blue</option>
@@ -26,7 +31,19 @@
       <option>Red</option>
     </select>
   </label>
+</ul>
+
+
+<div class="item range">
+  <i class="icon ion-volume-low"></i>
+  <input type="range" name="volume">
+  <i class="icon ion-volume-high"></i>
+</div>
+
 
 </ion-list>
+
+
+
         </ion-content>
 </ion-view>
