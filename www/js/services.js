@@ -94,8 +94,55 @@ angular.module('mychat.services', ['firebase'])
         }
     }
 })
+.factory('Settings', function($firebaseArray, $rootScope, $firebaseObject){
 
-.factory('Chats', function ( Rooms, $firebaseArray, $timeout, $rootScope) {
+      var fbAuth= ref.getAuth();
+     var userReference = ref.child("users/" + fbAuth.uid+"/settings");
+
+    var urlProfile=firebaseUrl+"/profile/";
+    var settingsArray = $firebaseArray(userReference);
+  var check=false;
+    return {
+        returnSettings: function(){
+
+                          $rootScope.user.settings = settingsArray;                        //to check settings Profile
+                        settingsArray.$loaded(function(){
+                            for(var i=0; i<settingsArray.length; i++){
+                             var urlNew=urlProfile+$rootScope.user.displayName+"/"+settingsArray[i].$id;
+                                var urlUser = new Firebase(urlNew);
+                            if(settingsArray[i].$value==true){
+                                            check=true;
+                                urlUser.set($rootScope.user[settingsArray[i].$id]);
+                                            } else{
+                                    urlUser.set(null);
+                                            }
+                                                                     }
+                            return check;
+
+                             })
+
+        },
+        update: function(setting){
+                   var changedSetting={};
+                   changedSetting[setting.$id]=setting.$value;
+                   userReference.update(changedSetting);
+                        var urlNew=urlProfile+$rootScope.user.displayName+"/"+setting.$id;
+                         var urlUser = new Firebase(urlNew);
+                   if(setting){
+                    urlUser.set($rootScope.user[setting.$id]);
+
+                   }else {
+                            urlUser.set(null);
+                   }
+
+        },
+        show: function(){
+            return $firebaseObject(ref.child('profile').child($rootScope.user.displayName).child('show'));
+
+        }
+    }
+})
+.factory('Chats', function ( Rooms, $firebaseArray, $timeout, $rootScope, $firebaseObject) {
 
     var selectedRoomId;
     var chats;
@@ -119,22 +166,8 @@ angular.module('mychat.services', ['firebase'])
         },
 
         findUser: function(username){
-            var otheruser={};
-            profiles.$loaded().then(function(){
-                     for (var j = 0; j < profiles.length; j++){
-                         if(username===profiles[j].$id){
-                             otheruser.name=username;
-                             otheruser.avatar=profiles[j].avatar;
-                             otheruser.status=profiles[j].status;
-                             otheruser.birth=profiles[j].birth;
-                             otheruser.roomNr=profiles[j].roomNr;
-                             otheruser.nation=profiles[j].nation;
-                         }
-                     }
-            })
-            if (otheruser.name!='') return otheruser;
-            else return false;
-
+            var profileFound = $firebaseObject(ref.child('profile').child(username));
+            return profileFound;
         },
         remove: function (chat) {
             chats.$remove(chat).then(function (ref) {

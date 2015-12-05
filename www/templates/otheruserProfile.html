@@ -1,20 +1,27 @@
 <ion-modal-view>
     <ion-header-bar class="bar bar-header ">
-        <h1 class="title">{{otheruser.name != null ? 'user' : 'not found'}}</h1>
+        <h1 class="title">{{otheruser.$id != null ? 'user' : 'not found'}}</h1>
         <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
     </ion-header-bar>
     <ion-content class="padding">
             <ion-item class="item-thumbnail-left item-text-wrap">
           <img ng-src="data:image/jpg;base64,{{otheruser.avatar.url != null ?  otheruser.avatar.url : defaultUser.avatar.url }}" alt="Poster" class="customized-image" ng-click="showImage($event)"  >
             <a ng-click="openPopover($event)">
-          <h2>{{otheruser.name}}</h2>
+          <h2>{{otheruser.$id}}</h2>
       <p>{{otheruser.status}}</p>
             </a>
         </ion-item>
-    <ion-item class=" item-text-wrap">
+    <ion-item ng-if="otheruser.show!=false" class=" item-text-wrap">
 <p>Date of Birth: {{otheruser.birth}}</p>
 <p>Nationality: {{otheruser.nation}}</p>
 <p>Room Nr: {{otheruser.roomNr}}</p>
+
+<p ng-if="otheruser.grade!=null">Grade: {{otheruser.grade}}</p>
+<p ng-if="otheruser.email!=null">Email: {{otheruser.email}}</p>
+        <p ng-if="otheruser.standing!=null">Standing: {{otheruser.standing}}</p>
+        </ion-item>
+        <ion-item ng-if="otheruser.show==false" class=" item-text-wrap">
+            <p>User hides information</p>
         </ion-item>
     </ion-content>
 </ion-modal-view>

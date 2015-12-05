@@ -11,13 +11,31 @@
       <p id="status" ng-click="openPopover($event)">{{userProfile.status}}</p>
 
         </ion-item>
-    <ion-item class=" item-text-wrap">
-<p >Date of Birth: <a id="birth"  ng-click="openPopover($event)">{{userProfile.birth}} </a></p>
-<p>Nationality: <a id="nation" ng-click="openPopover($event)" > {{userProfile.nation}}</a></p>
-<p>Room Nr: <a id="roomNr" ng-click="openPopover($event)" > {{userProfile.roomNr}}</a></p>
-<div ng-repeat="info in user.settings">
-        <p ng-if="info.$value==true">{{info.$id}}</p>
+    <ion-item class="item-text-wrap icon-right">
+
+        <p class="item item-icon-right" ng-if="userProfile.show!=true" > Your profile is hidden.<i class="icon ion-information-circled"></i></p>
+        <div class="row">
+      <div class="col-75 col-offset-10">
+       Date of Birth: <a id="birth"  ng-click="openPopover($event)">{{userProfile.birth}} </a>
+       </div>
+      </div>
+      <div class="row">
+      <div class="col-75 col-offset-10">
+      Nationality: <a id="nation" ng-click="openPopover($event)" > {{userProfile.nation}}</a>
+       </div>
+      </div>
+          <div class="row">
+      <div class="col-75 col-offset-10">
+       Room Nr: <a id="roomNr" ng-click="openPopover($event)" > {{userProfile.roomNr}}</a>
+       </div>
+      </div>
+
+         <div ng-repeat="info in user.settings" ng-if="info.$value==true" class="row">
+      <div class="col-75 col-offset-10">
+      {{info.$id}} : {{userProfile[info.$id]}}
+       </div>
         </div>
+
         </ion-item>
     </ion-content>
 </ion-view>

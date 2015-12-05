@@ -78,6 +78,8 @@ angular.module('mychat.controllers', [])
 //dataload is resolve function for loading data before loading state
 $scope.barClass=true; //class change
 dataLoad.userProfile();
+dataLoad.settings();
+
     var user = $scope.user;
     var catalog=dataLoad.catalog();
     var major=dataLoad.major();
@@ -204,7 +206,7 @@ $scope.timeFilter = function(item){
 })
 
 
-.controller('ChatCtrl', function ($scope, Chats, $state, $firebaseObject, $firebaseArray, $ionicScrollDelegate, $timeout, $ionicPopup, $ionicModal) {
+.controller('ChatCtrl', function ($scope, Chats, $state, $ionicScrollDelegate, $ionicPopup, $ionicModal) {
 
 
 
@@ -382,7 +384,6 @@ var userReference = ref.child("profile/" + $rootScope.user.displayName);
 
 
 $scope.editStatus=function(status,tag){
-        var fbAuth= ref.getAuth();
       var url=firebaseUrl+"/profile/"+$rootScope.user.displayName+"/"+tag;
     var urlUser = new Firebase(url);
     urlUser.set(status);
@@ -391,45 +392,23 @@ $scope.editStatus=function(status,tag){
 }
 
 })
-.controller('SettingsCtrl', function($scope, $rootScope, $firebaseArray){
-
-   var fbAuth= ref.getAuth();
-      if(fbAuth) {
-
-        var userReference = ref.child("users/" + fbAuth.uid+"/settings");
-          var settingsArray = $firebaseArray(userReference);
-         $rootScope.user.settings = settingsArray;
-          //to check settings Profile
-            var check=false;
-          settingsArray.$loaded(function(){
-               for(var i=0; i<settingsArray.length; i++)
-              if(settingsArray[i].$value==true) check=true;
-               $scope.profile=check;
-          })
+.controller('SettingsCtrl', function($scope, Settings){
 
 
+var profile =Settings.show();
 
+    profile.$loaded().then(function() {
+  $scope.profile=profile.$value;
+  });
 
-
-
-        } else {
-                    $state.go("login");
-                    }
-
+$scope.changeProfile=function(value){
+    profile.$value=value;
+    profile.$save();
+}
 
    $scope.changeSetting=function(setting){
-     var changedSetting={};
-       changedSetting[setting.$id]=setting.$value;
-       userReference.update(changedSetting);
+     Settings.update(setting);
    }
-
-$scope.profileOff=function(profile){
-    for(var i=0; i<settingsArray.length; i++){
-             var changedSetting={};
-       changedSetting[settingsArray[i].$id]=profile;
-    userReference.update(changedSetting);
-    }
-}
 
 })
 

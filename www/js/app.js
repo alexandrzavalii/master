@@ -97,7 +97,7 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
                     // If the promise is rejected, it will throw a $stateChangeError (see above)
                     return Auth.$requireAuth();
                                 }],
-            "dataLoad": function( $q, $timeout,$rootScope, Catalog, Major, $firebaseObject,Rooms ) {
+            "dataLoad": function( $q, $timeout,$rootScope, Catalog, Major, $firebaseObject,Rooms ,$firebaseArray, Settings) {
                         var asynchData = $q.defer();
                             $timeout(function(){
                               asynchData.resolve({
@@ -114,9 +114,9 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
                                                   var courses = $rootScope.user.courses;
                                                   return Rooms.all(courses);
                                         },
-                                        imgZoom: function (){
-
-                                            },
+                                        settings: function() {
+                                           Settings.returnSettings();
+                                        },
                                         userProfile: function(){
                                                 var fbAuth= ref.getAuth();
                                             $rootScope.userProfile={};
@@ -127,16 +127,10 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
 
                                                                           $rootScope.defaultUser= profiles[0];
                                                                       })
-
-
                                                         var userReference = ref.child("profile/" + $rootScope.user.displayName);
                                                          var syncObjectAvatar= $firebaseObject(userReference.child("avatar"));
                                                         var syncObjectStatus= $firebaseObject(userReference);
                                                          $rootScope.userProfile = syncObjectStatus;
-
-
-
-
 
                                                     } else {
                                                         $state.go("login");
