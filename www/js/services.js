@@ -6,10 +6,6 @@ angular.module('mychat.services', ['firebase'])
 }])
 
 
-/**
- * Simple Service which returns Rooms collection as Array from Salesforce & binds to the Scope in Controller
- */
-
 .factory('Catalog', function ($firebaseArray) {
     // Might use a resource here that returns a JSON array
  var catalog = $firebaseArray(ref.child('catalog'));
@@ -39,16 +35,16 @@ angular.module('mychat.services', ['firebase'])
       }
     ]
                     },
-     dataMajor:function(total,done){
+     dataMajor:function(major){
          
     return [
       {
-        value: done,
+        value: major.Done.length,
         color:"#F7464A",
         highlight: "#FF5A5E"
       },
       {
-        value: total,
+        value: major.Required,
         color: "#FDB45C",
         highlight: "#FFC870"
 
@@ -65,19 +61,37 @@ angular.module('mychat.services', ['firebase'])
                      }
          return credits;
      },
-     majorSelect: function(required,elective,taken){
+     majorSelect: function(major,taken){
 
          var list=[];
-         var all= required.concat(elective)
+         var all= major.required.concat(major.elective.courses);
+          var totalRequired=major.required.length + parseInt(major.elective.number);
         for(p=0;p<taken.length;p++)
                      for(j=0;j<all.length;j++) 
                             if(taken[p].id == all[j]) {
-                                console.log(taken[p].id);
                                 list.push(taken[p].id);
+                            }
+        var oneMajor = {Major: major.id, Done: list, Required: totalRequired};
 
-                        
-                                                      }
-         return list;
+         return oneMajor;
+     },
+     findMajorData: function(majorCatalog,majorUser){
+         var majorData=[];
+           for(i=0;i<majorCatalog.length;i++)
+              for(j=0;j<majorUser.length;j++)
+                  if(majorUser[j]==majorCatalog[i].id)
+                  {
+                      majorData.push(majorCatalog[i]);
+                  }
+         return majorData;
+     },
+     drawGraph: function(id,data){
+
+             var totalCredits = document.getElementById(id).getContext("2d");
+            var totalPie = new Chart(totalCredits).Pie(data,{
+                animateScale: true,
+                showTooltips: false
+            });
      }
 }})
 
@@ -97,10 +111,9 @@ angular.module('mychat.services', ['firebase'])
 .factory('Settings', function($firebaseArray, $rootScope, $firebaseObject){
 
       var fbAuth= ref.getAuth();
-     var userReference = ref.child("users/" + fbAuth.uid+"/settings");
-
+     var urlUser = ref.child("users/" + fbAuth.uid+"/settings");
     var urlProfile=firebaseUrl+"/profile/";
-    var settingsArray = $firebaseArray(userReference);
+    var settingsArray = $firebaseArray(urlUser);
   var check=false;
     return {
         returnSettings: function(){
@@ -125,7 +138,7 @@ angular.module('mychat.services', ['firebase'])
         update: function(setting){
                    var changedSetting={};
                    changedSetting[setting.$id]=setting.$value;
-                   userReference.update(changedSetting);
+                   urlUser.update(changedSetting);
                         var urlNew=urlProfile+$rootScope.user.displayName+"/"+setting.$id;
                          var urlUser = new Firebase(urlNew);
                    if(setting){
@@ -139,7 +152,29 @@ angular.module('mychat.services', ['firebase'])
         show: function(){
             return $firebaseObject(ref.child('profile').child($rootScope.user.displayName).child('show'));
 
-        }
+        },
+        changePassword: function(oldPass,newPass){
+            ref.changePassword({
+                email: $rootScope.user.email,
+              oldPassword: oldPass,
+              newPassword: newPass
+            }, function(error) {
+              if (error) {
+                switch (error.code) {
+                  case "INVALID_PASSWORD":
+                    alert("The specified user account password is incorrect.");
+                    break;
+                  case "INVALID_USER":
+                    alert("The specified user account does not exist.");
+                    break;
+                  default:
+                    alert("Error changing password:", error);
+                }
+              } else {
+                alert("User password changed successfully!");
+                      }
+                    });
+                            }
     }
 })
 .factory('Chats', function ( Rooms, $firebaseArray, $timeout, $rootScope, $firebaseObject) {

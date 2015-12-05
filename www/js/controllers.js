@@ -103,33 +103,28 @@ dataLoad.settings();
     console.log("Credits: " + $scope.credits);
 
       $timeout(function(){
+          var id="totalCredits";
+          Dash.drawGraph(id,data);
 
-            var totalCredits = document.getElementById("totalCredits").getContext("2d");
-            var totalPie = new Chart(totalCredits).Pie(data,{
-                animateScale: true,
-                showTooltips: false
-            });
+
 
         var MajorDoneObject= [];
           //discover major and count classes 
-          for(i=0;i<major.length;i++)
-              for(j=0;j<user.major.length;j++)
-                  if(user.major[j]==major[i].id)
-                  {
-                        var majorDone=Dash.majorSelect(major[i].required,major[i].elective.courses,user.coursesTaken);
-                        var totalRequired=major[i].required.length+ parseInt(major[i].elective.number);
-                        var oneMajor = {Major: major[i].id, Done: majorDone, Required: totalRequired};
-                        MajorDoneObject.push(oneMajor);
-                      console.table(MajorDoneObject);
-                        console.log("TOTAL: "+ oneMajor.Required + " DONE: " + oneMajor.Done + " MAJOR: " + oneMajor.Major );
+          var findMajorData=Dash.findMajorData(major,user.major);
+
+
+          for(i=0;i<findMajorData.length;i++){
+             var oneMajor=Dash.majorSelect(findMajorData[i],user.coursesTaken);
+             MajorDoneObject.push(oneMajor);
+          }
+
+          //draw pie
+          for(i=0;i<MajorDoneObject.length;i++){
 //create pie
-                        var datas= Dash.dataMajor(totalRequired,majorDone.length);
-                        var majorCredits = document.getElementById(user.major[i]).getContext("2d");
-                        var majorPie = new Chart(majorCredits).Pie(datas,{
-                                               animateScale: true,
-                                               showTooltips: false
-                        });
-                  }
+          Dash.drawGraph(user.major[i], Dash.dataMajor(MajorDoneObject[i]));
+
+
+          }
 //popover overall
   $ionicPopover.fromTemplateUrl('templates/popoverStats.html', {
     scope: $scope,
@@ -393,6 +388,10 @@ $scope.editStatus=function(status,tag){
 
 })
 .controller('SettingsCtrl', function($scope, Settings){
+
+    $scope.changePass=function(oldPass,newPass){
+      Settings.changePassword(oldPass,newPass);
+    }
 
 
 var profile =Settings.show();

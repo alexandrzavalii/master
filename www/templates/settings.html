@@ -18,7 +18,37 @@
         </ion-checkbox>
         </div>
 
-        <div class="item item-divider">
+   <div class="item item-divider">
+    Change Password
+  </div>
+         <form name="ChangePassword" class="list card padding">
+  <label class="item item-input">
+    <input type="password" ng-model="old" placeholder="old password" required>
+  </label>
+  <label class="item item-input">
+    <input type="password" ng-model="new" placeholder="new password" required>
+  </label>
+
+
+   <label class="item item-input">
+    <input ng-hide="new==null" type="password" ng-model="renew" placeholder="new password" required>
+  </label>
+
+
+
+ <p class="item item-icon-right" ng-if="new!=renew" > re-enter new password.<i class="icon ion-android-warning"></i></p>
+  <p class="item item-icon-right" ng-if="new==old && new==renew" >change new password.<i class="icon ion-android-warning"></i></p>
+
+
+
+        <button ng-if="new==renew && old!=new" ng-click="changePass(old,new)" class="button button-block button-positive activated"  ng-hide="ChangePassword.$invalid" >
+                Change
+            </button>
+
+
+   </form>
+
+                <div class="item item-divider">
     Design
   </div>
           <label class="item item-input item-select">
@@ -33,13 +63,11 @@
   </label>
 </ul>
 
-
-<div class="item range">
+    <div class="item range">
   <i class="icon ion-volume-low"></i>
   <input type="range" name="volume">
   <i class="icon ion-volume-high"></i>
 </div>
-
 
 </ion-list>
 
