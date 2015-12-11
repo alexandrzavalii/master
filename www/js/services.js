@@ -64,14 +64,35 @@ angular.module('mychat.services', ['firebase'])
      majorSelect: function(major,taken){
 
          var list=[];
-         var all= major.required.concat(major.elective.courses);
           var totalRequired=major.required.length + parseInt(major.elective.number);
-        for(p=0;p<taken.length;p++)
-                     for(j=0;j<all.length;j++) 
-                            if(taken[p].id == all[j]) {
-                                list.push(taken[p].id);
+         var listRequired=[];
+         var listElective=[];
+         var elective=major.elective.courses;
+        var ElectiveLeftNumber=parseInt(major.elective.number);
+         var ElectiveLeft=elective;
+                for(p=0;p<taken.length;p++)
+                     for(j=0;j<elective.length;j++)
+                            if(taken[p].id == elective[j]) {
+                                listElective.push(taken[p].id);
+                                ElectiveLeftNumber--;
+                                ElectiveLeft.splice( taken[p].id, 1 );
+                                break;
                             }
-        var oneMajor = {Major: major.id, Done: list, Required: totalRequired};
+         var RequiredLeft=major.required;
+
+
+         for(p=0;p<taken.length;p++)
+                     for(j=0;j<major.required.length;j++)
+                            if(taken[p].id == major.required[j]) {
+
+                                RequiredLeft.splice( taken[p].id, 1 );
+                                listRequired.push(taken[p].id);
+                                break;
+                            }
+         console.log("Required:"+RequiredLeft);
+
+                     list=listRequired.concat(listElective);
+        var oneMajor = {Major: major.id, Done: list, Required: totalRequired, RequiredLeft: RequiredLeft, ElectiveLeftNumber: ElectiveLeftNumber, ElectiveLeft: ElectiveLeft};
 
          return oneMajor;
      },
@@ -83,6 +104,7 @@ angular.module('mychat.services', ['firebase'])
                   {
                       majorData.push(majorCatalog[i]);
                   }
+
          return majorData;
      },
      drawGraph: function(id,data){

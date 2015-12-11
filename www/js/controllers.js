@@ -99,6 +99,13 @@ dataLoad.settings();
 
 
     $scope.credits=Dash.credits(user.coursesTaken,catalog); //count for the credits of the courses taken
+
+    $scope.majors=major;
+
+
+
+
+    $scope.coursesTaken=user.coursesTaken;
     var data = Dash.data($scope.credits);
     console.log("Credits: " + $scope.credits);
 
@@ -118,9 +125,10 @@ dataLoad.settings();
              MajorDoneObject.push(oneMajor);
           }
 
-          //draw pie
+$scope.MajorDoneObject=MajorDoneObject;
+
           for(i=0;i<MajorDoneObject.length;i++){
-//create pie
+
           Dash.drawGraph(user.major[i], Dash.dataMajor(MajorDoneObject[i]));
 
 
@@ -453,3 +461,15 @@ $scope.changeProfile=function(value){
     };
   }
 ])
+.filter('filterCourse', function() {
+
+  return function(arr1, coursesTaken) {
+
+
+    return arr1.filter(function(val) {
+      return true;
+    })
+
+
+  }
+});

@@ -17,6 +17,29 @@
 
       </div>
 
+
+
+      <ion-list>
+                      <div ng-repeat="major in MajorDoneObject" class="list card">
+                              <div class="item item-divider">
+                                {{major.Major}}
+                              </div>
+                              <div class="item item-text-wrap">
+                                Required:
+                                 <p ng-repeat="course in major.RequiredLeft">{{course}} </p>
+                                Ellective:
+                                <p ng-repeat="course in major.ElectiveLeft">{{course}} </p>
+
+                              </div>
+                              <div class="item item-text-wrap">
+                                Required: {{major.RequiredLeft.length}}, Ellective: {{major.ElectiveLeftNumber}}
+                              </div>
+                    </div>
+
+
+
+
+      </ion-list>
    <ion-list>
           <ion-item class="item-stable"
                     ng-click="toggleGroup()"
