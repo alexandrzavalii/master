@@ -1,6 +1,6 @@
 {
-  "name": "ionic-firebase",
-  "app_id": "44bb103b",
+  "name": "AUBG Stats",
+  "app_id": "062a4819",
   "gulpStartupTasks": [
     "sass",
     "watch"

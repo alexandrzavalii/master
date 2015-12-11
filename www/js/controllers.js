@@ -419,7 +419,7 @@ $scope.changeProfile=function(value){
 
 })
 
-.controller('LeftMenuCtrl', function($scope, $location) {
+.controller('LeftMenuCtrl', function($scope, $location, $rootScope) {
 
     $scope.items=[
         {
@@ -452,6 +452,7 @@ $scope.changeProfile=function(value){
   $scope.isItemActive = function(item) {
     return $location.path().indexOf(item.url) > -1;
 }
+  $scope.logout=$rootScope.logout;
 })
 .filter('nl2br', ['$filter',
   function($filter) {

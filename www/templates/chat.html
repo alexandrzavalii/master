@@ -1,16 +1,16 @@
 <style> .item-content{
     background-color: white !important;
-
-}</style>
+             }
+</style>
 
 <ion-view view-title="Chat Room {{ roomName }}">
-                <ion-nav-bar class="bar-header bar-light">
-<ion-nav-buttons side="primary">
+
+<ion-nav-buttons side="right">
       <button class="button ion-android-arrow-back" ng-click="goback()">
 
       </button>
     </ion-nav-buttons>
-    </ion-nav-bar>
+
     <ion-content>
         <div ng-repeat="message in chats" class="message-wrapper" >
 

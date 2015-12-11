@@ -9,7 +9,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 // 'mychat.services' is found in services.js
 // 'mychat.controllers' is found in controllers.js
-var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mychat.controllers', 'mychat.services','angles','ngCordova'])
+var app = angular.module('mychat', ['ionic','ionic.service.core', 'firebase', 'angularMoment', 'mychat.controllers', 'mychat.services','angles','ngCordova'])
 
 .run(function ($ionicPlatform, $rootScope, $location, Auth, $ionicLoading, $ionicHistory, $timeout, $cordovaStatusbar, $cordovaKeyboard) {
     $ionicPlatform.ready(function () {
@@ -21,21 +21,13 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
 
-
-
- $cordovaKeyboard.disableScroll(true)
-
-
-
+            $cordovaKeyboard.disableScroll(true)
      try {
-
          $cordovaStatusbar.overlaysWebView(true);
         $cordovaStatusBar.style(1); //Light
             }catch(e) {
             console.log("NOT IOS: "+e);
             }
-
-
 
                         if(window.StatusBar) {
                   // org.apache.cordova.statusbar required
@@ -43,14 +35,10 @@ var app = angular.module('mychat', ['ionic', 'firebase', 'angularMoment', 'mycha
                 }
 
 
-
-
-
-        // To Resolve Bug
         ionic.Platform.fullScreen();
 
-        $rootScope.firebaseUrl = firebaseUrl;
-        $rootScope.user = null;
+
+
 
 
 
