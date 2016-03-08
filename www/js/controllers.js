@@ -1,4 +1,4 @@
-angular.module('mychat.controllers', [])
+angular.module('AUBGStats.controllers', [])
 
 .controller('LoginCtrl', function ($scope, $ionicModal, $state, $firebaseAuth, $ionicLoading, $rootScope) {
     //console.log('Login Controller Initialized');
@@ -158,21 +158,6 @@ $scope.MajorDoneObject=MajorDoneObject;
 
      }, 500);
 
-    $rootScope.showImage = function(image) {
-            $scope.bigSrc=image.currentTarget;
-         $ionicModal.fromTemplateUrl('templates/image-popover.html', {
-         scope: $scope,
-         animation: 'slide-in-up'
-     }).then(function(modal) {
-         $scope.modal = modal;
-         $scope.modal.show();
-     });
- }
- $rootScope.closeModal = function() {
-         $scope.modal.hide();
- };
-
-
 })
 .controller('TimetableCtrl', function ($scope, $state, $ionicPopover) {
 
@@ -286,7 +271,7 @@ $scope.timeFilter = function(item){
     var fbAuth= ref.getAuth();
       if(fbAuth) {
                 var userName = $scope.user;
-                $scope.wishid=userName.wish;
+                var wishid=userName.wish;
                 $scope.catalog = Catalog.all();
                 var url=firebaseUrl+"/users/"+fbAuth.uid+"/wish";
                 var urlUser = new Firebase(url);
@@ -336,7 +321,7 @@ $scope.wishdelete=function(course){
     
 
 $scope.filterwish = function(course) {
-     return ($scope.wishid.indexOf(course.id) !== -1);
+     return (wishid.indexOf(course.id) !== -1);
     };
 
 })
@@ -419,7 +404,7 @@ $scope.changeProfile=function(value){
 
 })
 
-.controller('LeftMenuCtrl', function($scope, $location, $rootScope) {
+.controller('LeftMenuCtrl', function($scope, $location, $rootScope, $ionicModal) {
 
     $scope.items=[
         {
@@ -452,7 +437,20 @@ $scope.changeProfile=function(value){
   $scope.isItemActive = function(item) {
     return $location.path().indexOf(item.url) > -1;
 }
-  $scope.logout=$rootScope.logout;
+  
+      $rootScope.showImage = function(image) {
+            $scope.bigSrc=image.currentTarget;
+         $ionicModal.fromTemplateUrl('templates/image-popover.html', {
+         scope: $scope,
+         animation: 'slide-in-up'
+     }).then(function(modal) {
+         $scope.modal = modal;
+         $scope.modal.show();
+     });
+ }
+
+
+
 })
 .filter('nl2br', ['$filter',
   function($filter) {
@@ -462,15 +460,5 @@ $scope.changeProfile=function(value){
     };
   }
 ])
-.filter('filterCourse', function() {
-
-  return function(arr1, coursesTaken) {
 
 
-    return arr1.filter(function(val) {
-      return true;
-    })
-
-
-  }
-});

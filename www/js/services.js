@@ -1,4 +1,4 @@
-angular.module('mychat.services', ['firebase'])
+angular.module('AUBGStats.services', ['firebase'])
     .factory("Auth", ["$firebaseAuth", "$rootScope",
     function ($firebaseAuth, $rootScope) {
             var ref = new Firebase(firebaseUrl);
@@ -7,13 +7,14 @@ angular.module('mychat.services', ['firebase'])
 
 
 .factory('Catalog', function ($firebaseArray) {
-    // Might use a resource here that returns a JSON array
  var catalog = $firebaseArray(ref.child('catalog'));
- 
+
+    
     return {
         all: function () {
             return catalog;
         }
+        
     }
 })
 

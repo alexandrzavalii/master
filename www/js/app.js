@@ -9,9 +9,9 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 // 'mychat.services' is found in services.js
 // 'mychat.controllers' is found in controllers.js
-var app = angular.module('mychat', ['ionic','ionic.service.core', 'firebase', 'angularMoment', 'mychat.controllers', 'mychat.services','angles','ngCordova'])
+var app = angular.module('mychat', ['ionic','ionic.service.core', 'firebase', 'angularMoment', 'AUBGStats.controllers', 'AUBGStats.services','angles','ngCordova'])
 
-.run(function ($ionicPlatform, $rootScope, $location, Auth, $ionicLoading, $ionicHistory, $timeout, $cordovaStatusbar, $cordovaKeyboard) {
+app.run(function ($ionicPlatform, $rootScope, $location, Auth, $ionicLoading, $ionicHistory, $timeout, $cordovaStatusbar, $cordovaKeyboard) {
     $ionicPlatform.ready(function () {
 
 
@@ -37,11 +37,6 @@ var app = angular.module('mychat', ['ionic','ionic.service.core', 'firebase', 'a
 
         ionic.Platform.fullScreen();
 
-
-
-
-
-
         Auth.$onAuth(function (authData) {
             if (authData) {
                 console.log("Logged in as:", authData.uid);
@@ -52,13 +47,8 @@ var app = angular.module('mychat', ['ionic','ionic.service.core', 'firebase', 'a
             }
         });
 
-        $rootScope.logout = function () {
-            console.log("Logging out from the app");
-            $ionicLoading.show({
-                template: 'Logging Out...'
-            });
-            Auth.$unauth();
-        }
+        
+
         $rootScope.$on("$stateChangeError", function (event, toState, toParams, fromState, fromParams, error) {
             // We can catch the error thrown when the $requireAuth promise is rejected
             // and redirect the user back to the home page
@@ -71,32 +61,31 @@ var app = angular.module('mychat', ['ionic','ionic.service.core', 'firebase', 'a
     });
 })
 
-.config(function ($stateProvider, $urlRouterProvider) {
+app.config(function ($stateProvider, $urlRouterProvider) {
     console.log("setting config");
     $stateProvider
 
-    .state('login', {
+.state('login', {
         url: "/login",
         templateUrl: "templates/login.html",
         controller: 'LoginCtrl',
         resolve: {
-            // Auth refers to our $firebaseAuth wrapper in the example above
-            "currentAuth": ["Auth",
-                function (Auth) {
-                    // $waitForAuth returns a promise so the resolve waits for it to complete
-                    return Auth.$waitForAuth();
-                                }
-                           ]
+                "currentAuth": ["Auth",
+                    function (Auth) {
+                        // $waitForAuth returns a promise so the resolve waits for it to complete
+                        return Auth.$waitForAuth();
+                                    }
+                               ]
         }
     })
     
-    .state('app', {
+.state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-        controller: 'DashCtrl',
-        cache: false,
-            resolve: {
+    controller: 'DashCtrl',
+    cache: false,
+    resolve: {
             "currentAuth": ["Auth",
                 function (Auth) {
                     // If the promise is rejected, it will throw a $stateChangeError (see above)
